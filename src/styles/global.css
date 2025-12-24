@@ -1,155 +1,71 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;700&family=JetBrains+Mono:wght@700&family=Noto+Sans+KR:wght@900&display=swap");
 
-:root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px
-		rgba(var(--gray), 33%);
+@import "tailwindcss";
+
+@theme {
+  /* Core: 타협 없는 강렬함 */
+  --color-brand-red: #ff3131;
+  --color-brand-mint: #67fff0;
+
+  /* Border: 아주 가늘지만 명확하게 */
+  --color-stroke-dim: rgba(255, 255, 255, 0.05);
+  --color-stroke-bright: rgba(255, 255, 255, 0.2);
+
+  /* Space: 공간을 정의하는 색 (완전 블랙 대신 깊은 미드나잇) */
+  --color-space-950: #030304; /* 최심층 */
+  --color-space-900: #050608; /* 깊은 공간 */
+  --color-space-800: #0f1115; /* 레이어 공간 */
+
+  /* Contrast: 시각적 충격을 조절 */
+  --color-ink-900: #ffffff; /* 메인 텍스트 */
+  --color-ink-700: #8892b0; /* 차가운 느낌의 서브 텍스트 */
+
+  /* Accent: 두 색의 충돌을 막아주는 중간자 */
+  --color-accent-slate: #1e293b;
+
+  /* Detail: 완성도를 결정짓는 수치 */
+  --radius-none: 0px; /* 대담하게 각진 모서리로 신뢰감 형성 */
+  --radius-full: 9999px; /* 버튼은 완전한 캡슐형으로 대비 */
+
+  /* Font 정의 */
+  --font-sans: "Pretendard", "Inter", sans-serif;
+  --font-display:
+    "Syne", "Noto Sans KR", sans-serif; /* 제목용, 영문은 Syne, 국문은 Noto Sans 900 */
+  --font-mono: "JetBrains Mono", monospace; /* 각주/데이터용 */
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+
+/* 글로벌 스타일: 마우스 드래그 색상도 브랜드 컬러로 변경 */
+::selection {
+  background-color: var(--color-brand-red);
+  color: var(--color-brand-mint);
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+
+/* 스크롤바 커스텀 */
+::-webkit-scrollbar {
+  width: 4px;
 }
+::-webkit-scrollbar-track {
+  background: var(--color-space-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-red);
+}
+
+/* 기본 서체 설정 */
 body {
-	font-family: "Atkinson", sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+  line-height: 1.6;
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
+
+/* 제목 전용 유틸리티 */
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
 h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
-}
-
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
