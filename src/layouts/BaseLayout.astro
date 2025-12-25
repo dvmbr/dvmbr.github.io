@@ -1,4 +1,6 @@
 ---
+import BaseBody from "../components/BaseBody.astro";
+import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
@@ -6,21 +8,18 @@ import "../styles/global.css";
 type Props = {
   title?: string;
   description?: string;
+  image?: ImageMetadata;
 };
 
-const { title = "dvmbr", description = "" } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-  </head>
-
-  <body>
+  <BaseHead title={title} description={description} image={image} />
+  <BaseBody>
+    <Header />
     <slot />
-  </body>
+    <Footer />
+  </BaseBody>
 </html>

@@ -1,5 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;700&family=JetBrains+Mono:wght@700&family=Noto+Sans+KR:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap&family=Inter:wght@400;700&family=JetBrains+Mono:wght@700&family=Noto+Sans+KR:wght@900&display=swap");
 
 @import "tailwindcss";
 
@@ -9,8 +9,8 @@
   --color-brand-mint: #67fff0;
 
   /* Border: 아주 가늘지만 명확하게 */
-  --color-stroke-dim: rgba(255, 255, 255, 0.05);
-  --color-stroke-bright: rgba(255, 255, 255, 0.2);
+  --color-divider: rgba(255, 255, 255, 0.05); /* 경계선 */
+  --color-outline: rgba(255, 255, 255, 0.2); /* 테두리 */
 
   /* Space: 공간을 정의하는 색 (완전 블랙 대신 깊은 미드나잇) */
   --color-space-950: #030304; /* 최심층 */
@@ -18,8 +18,8 @@
   --color-space-800: #0f1115; /* 레이어 공간 */
 
   /* Contrast: 시각적 충격을 조절 */
-  --color-ink-900: #ffffff; /* 메인 텍스트 */
-  --color-ink-700: #8892b0; /* 차가운 느낌의 서브 텍스트 */
+  --color-ink-main: #ffffff; /* 메인 텍스트 */
+  --color-ink-sub: #8892b0; /* 차가운 느낌의 서브 텍스트 */
 
   /* Accent: 두 색의 충돌을 막아주는 중간자 */
   --color-accent-slate: #1e293b;
@@ -31,7 +31,7 @@
   /* Font 정의 */
   --font-sans: "Pretendard", "Inter", sans-serif;
   --font-display:
-    "Syne", "Noto Sans KR", sans-serif; /* 제목용, 영문은 Syne, 국문은 Noto Sans 900 */
+    "Space Grotesk", "Noto Sans KR", sans-serif; /* 제목용, 영문은 Syne, 국문은 Noto Sans 900 */
   --font-mono: "JetBrains Mono", monospace; /* 각주/데이터용 */
 }
 
@@ -54,6 +54,7 @@
 
 /* 기본 서체 설정 */
 body {
+  font-size: 20px;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   word-break: keep-all;
@@ -68,4 +69,28 @@ h3 {
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 1.1;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px 1px 1px 1px);
+  /* maybe deprecated but we need to support legacy browsers */
+  clip: rect(1px, 1px, 1px, 1px);
+  /* modern browsers, clip-path works inwards from each corner */
+  clip-path: inset(50%);
+  /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
+  white-space: nowrap;
 }
