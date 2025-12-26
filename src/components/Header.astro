@@ -4,25 +4,17 @@ import SVGGithub from "./SVGGithub.astro";
 ---
 
 <header
-  class="border-divider sticky top-0 left-0 w-full border-b px-4 backdrop-blur-md"
+  class="border-divider bg-space-900/80 sticky top-0 left-0 isolate z-50 w-full border-b px-4 backdrop-blur-md"
 >
   <nav class="flex items-center justify-between">
     <a class="font-display text-xl font-black md:text-2xl" href="/">dvmbr</a>
     <ul class="flex items-center py-6">
-      <li>
-        <HeaderNavLink href="/">home</HeaderNavLink>
-      </li>
-      <li>
-        <HeaderNavLink href="/project">project</HeaderNavLink>
-      </li>
-      <li>
-        <HeaderNavLink href="blog">blog</HeaderNavLink>
-      </li>
+      <li><HeaderNavLink href="/">home</HeaderNavLink></li>
+      <li><HeaderNavLink href="/project">project</HeaderNavLink></li>
+      <li><HeaderNavLink href="/blog">blog</HeaderNavLink></li>
     </ul>
     <ul class="hidden uppercase md:flex">
-      <li>
-        <SVGGithub />
-      </li>
+      <li><SVGGithub /></li>
     </ul>
   </nav>
 </header>
