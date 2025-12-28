@@ -1,0 +1,71 @@
+---
+type Props = {
+  label: string;
+
+  /* link mode */
+  href?: string;
+
+  /* optional click handler (client-side usage) */
+  onClick?: string;
+
+  /* styling / attrs */
+  className?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
+  rel?: string;
+  ariaLabel?: string;
+
+  /* force element type if you want */
+  as?: "a" | "button";
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+};
+
+const {
+  label,
+  href,
+  onClick,
+  className = "",
+  target,
+  rel,
+  ariaLabel,
+  as,
+  type = "button",
+  disabled = false,
+} = Astro.props;
+
+const Tag = as ? as : href ? "a" : "button";
+
+/* safe rel default for _blank */
+const computedRel =
+  Tag === "a" && target === "_blank" ? (rel ?? "noopener noreferrer") : rel;
+
+const base =
+  "bg-brand-mint text-space-900 focus-visible:ring-brand-mint/40 mb-1 rounded-full px-10 py-4 text-base font-black transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-white focus-visible:ring-2 focus-visible:outline-none motion-safe:hover:shadow-[0_14px_40px_rgba(103,255,240,0.18)]";
+
+const extra = className ? ` ${className}` : "";
+---
+
+{
+  Tag === "a" ? (
+    <a
+      href={href}
+      target={target}
+      rel={computedRel}
+      aria-label={ariaLabel ?? label}
+      class={base + extra}
+      {...(onClick ? { onclick: onClick } : {})}
+    >
+      {label}
+    </a>
+  ) : (
+    <button
+      type={type}
+      aria-label={ariaLabel ?? label}
+      class={base + extra}
+      disabled={disabled}
+      {...(onClick ? { onclick: onClick } : {})}
+    >
+      {label}
+    </button>
+  )
+}

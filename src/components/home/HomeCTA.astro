@@ -1,22 +1,80 @@
-<section class="bg-space-950 border-divider border-t px-6 py-14 md:px-8">
-  <div
-    class="mx-auto flex w-full max-w-5xl flex-col items-start justify-between gap-8 md:flex-row md:items-center"
-  >
-    <div>
-      <h3 class="text-ink-900 text-2xl font-black md:text-3xl">
-        Make your UI feel stable.
-      </h3>
-      <p class="text-ink-700 mt-3 max-w-xl text-sm md:text-base">
-        상태/흐름/피드백이 명확하면, 제품은 더 빨라 보이고 더 믿을 수 있게
-        됩니다.
-      </p>
-    </div>
+---
+import PrimaryCTA from "../PrimaryCTA.astro";
+---
 
-    <a
-      href="/contact"
-      class="bg-brand-mint text-space-900 rounded-full px-10 py-4 text-base font-black transition duration-500 hover:bg-white"
+<section class="bg-space-950 border-divider border-t px-6 md:px-8">
+  <div class="mx-auto w-full max-w-5xl">
+    <div
+      class="cta-rail group relative grid grid-cols-12 items-center gap-6 py-14 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 md:py-16"
     >
-      Start a project
-    </a>
+      <div class="col-span-12 md:col-span-8">
+        <h3
+          class="text-ink-main text-3xl font-black tracking-tight transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-px md:text-4xl"
+        >
+          I care about how systems behave,<br />
+          not just how they look.
+        </h3>
+
+        <p
+          class="text-ink-sub/90 mt-3 max-w-2xl text-base leading-relaxed transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-px group-hover:opacity-95 md:text-lg"
+        >
+          Understanding before acting.
+        </p>
+
+        <div class="mt-5 inline-flex items-center gap-3">
+          <span
+            class="cta-breath bg-brand-mint h-1.5 w-1.5 rounded-full motion-safe:animate-[breathe_2.8s_ease-in-out_infinite]"
+          ></span>
+
+          <span
+            class="text-ink-sub/80 text-xs font-bold tracking-[0.28em] uppercase transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-px group-hover:opacity-95"
+          >
+            Think first · Build deliberately · Ship calmly
+          </span>
+        </div>
+      </div>
+
+      <div class="col-span-12 md:col-span-4 md:flex md:justify-end">
+        <div class="cta-actions">
+          <PrimaryCTA label="Contact" href="/contact" />
+        </div>
+      </div>
+
+      <!-- underline rail -->
+      <div
+        class="cta-line group-hover:bg-brand-mint/25 col-span-12 h-px translate-y-2.5 bg-white/5 transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-2"
+      >
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    50% {
+      transform: scale(1.6);
+      opacity: 1;
+    }
+  }
+
+  /* button reacts with the rail */
+  .cta-rail:hover .cta-actions :global(a),
+  .cta-rail:hover .cta-actions :global(button) {
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-rail,
+    .cta-line,
+    .cta-actions :global(a),
+    .cta-actions :global(button) {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

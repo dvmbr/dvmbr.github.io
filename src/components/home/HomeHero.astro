@@ -1,5 +1,6 @@
 ---
 import { TAGS, TONE_CLASS } from "../../data/tags";
+import PrimaryCTA from "../PrimaryCTA.astro";
 import TagPills from "../TagPills.astro";
 ---
 
@@ -54,12 +55,7 @@ import TagPills from "../TagPills.astro";
         </span>
       </p>
 
-      <a
-        href="/projects"
-        class="bg-brand-mint text-space-900 focus-visible:ring-brand-mint/40 mb-1 rounded-full px-10 py-4 text-base font-black transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-white focus-visible:ring-2 focus-visible:outline-none motion-safe:hover:shadow-[0_14px_40px_rgba(103,255,240,0.18)]"
-      >
-        Projects
-      </a>
+      <PrimaryCTA label="Project" href="/project" />
     </div>
   </div>
 </section>
