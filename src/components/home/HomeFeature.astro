@@ -1,139 +1,135 @@
-<section class="bg-accent-slate grid grid-cols-1 gap-px md:grid-cols-2">
-  <article
-    class="bg-space-900 hover:bg-brand-red group p-10 transition-colors duration-700 md:p-12"
-  >
-    <span class="text-brand-mint group-hover:text-space-900 font-mono text-sm">
-      01/
-    </span>
+---
+import { type Tone, type Tag, TAGS, TONE_CLASS } from "../../data/tags";
+import TagPills from "../TagPills.astro";
 
-    <h2
-      class="text-ink-900 group-hover:text-space-900 mt-4 text-3xl font-black md:text-4xl"
-    >
-      Explicit State Design
-    </h2>
+type Principle = {
+  no: string;
+  accent: "mint" | "red";
+  hoverBg: "brand-red" | "brand-mint";
+  title: string;
+  descHtml: string; // <br /> 포함
+};
 
-    <p class="text-ink-700 group-hover:text-space-900/80 mt-4 leading-relaxed">
-      모든 UI 상태를 명시적으로 정의하고,<br />
-      예외 상황까지 예측합니다.
-    </p>
+const PRINCIPLES: Principle[] = [
+  {
+    no: "01/",
+    accent: "mint",
+    hoverBg: "brand-red",
+    title: "State-Oriented Thinking",
+    descHtml: `Design flows around explicit states,<br />making every UI transition predictable.`,
+  },
+  {
+    no: "02/",
+    accent: "red",
+    hoverBg: "brand-mint",
+    title: "Feedback as a First-Class Citizen",
+    descHtml: `Every user action deserves a response,<br />including delay, success, and failure.`,
+  },
+  {
+    no: "03/",
+    accent: "red",
+    hoverBg: "brand-mint",
+    title: "Structured Interfaces",
+    descHtml: `Components and interfaces are built<br />with extension and replacement in mind.`,
+  },
+  {
+    no: "04/",
+    accent: "mint",
+    hoverBg: "brand-red",
+    title: "Sustainable Codebases",
+    descHtml: `Favor structures that last,<br />not just solutions that ship fast.`,
+  },
+];
 
-    <div class="mt-6 flex flex-wrap gap-2">
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
+const ACCENT_CLASS = {
+  mint: "text-brand-mint group-hover:text-space-900",
+  red: "text-brand-red group-hover:text-space-900",
+} as const;
+
+const HOVER_BG_CLASS = {
+  "brand-red": "hover:bg-brand-red",
+  "brand-mint": "hover:bg-brand-mint",
+  "space-950": "hover:bg-space-950",
+} as const;
+
+function tonesForPrinciple(no: string): Tone[] {
+  switch (no) {
+    case "01/":
+      return ["philosophy", "core"];
+
+    case "02/":
+      return ["interaction", "secondary"];
+
+    case "03/":
+      return ["architecture", "core"];
+
+    case "04/":
+      return ["quality", "secondary"];
+
+    default:
+      return ["secondary"];
+  }
+}
+
+function getPrincipleTags(no: string): Tag[] {
+  const tones = tonesForPrinciple(no);
+  return TAGS.filter((t) => tones.includes(t.tone));
+}
+---
+
+<section
+  class="bg-accent-slate border-divider grid grid-cols-1 gap-px border-t md:grid-cols-2"
+>
+  {
+    PRINCIPLES.map((p) => (
+      <article
+        class={`bg-space-900 group p-10 transition-[background-color,transform,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:shadow-[0_18px_60px_rgba(0,0,0,0.28)] md:p-12 ${HOVER_BG_CLASS[p.hoverBg]}`}
       >
-        Loading/Error/Success
-      </span>
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
-      >
-        Optimistic UI
-      </span>
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
-      >
-        Rollback
-      </span>
-    </div>
-  </article>
+        <span
+          class={`${ACCENT_CLASS[p.accent]} font-mono text-sm transition-[color,transform,opacity] duration-500 group-hover:-translate-y-px group-hover:opacity-95`}
+        >
+          {p.no}
+        </span>
 
-  <article
-    class="bg-space-900 hover:bg-brand-mint group p-10 transition-colors duration-700 md:p-12"
-  >
-    <span class="text-brand-red group-hover:text-space-900 font-mono text-sm">
-      02/
-    </span>
+        <h2 class="text-ink-main group-hover:text-space-900 mt-4 text-3xl font-black transition-[color,transform] duration-500 group-hover:-translate-y-px md:text-4xl">
+          {p.title}
+        </h2>
 
-    <h2
-      class="text-ink-900 group-hover:text-space-900 mt-4 text-3xl font-black md:text-4xl"
-    >
-      Feedback-First Interaction
-    </h2>
+        <p
+          class="text-ink-sub group-hover:text-space-900/80 mt-4 leading-relaxed transition-[color,transform,opacity] duration-500 group-hover:translate-y-px group-hover:opacity-95"
+          set:html={p.descHtml}
+        />
 
-    <p class="text-ink-700 group-hover:text-space-900/80 mt-4 leading-relaxed">
-      로딩, 성공, 실패를 숨기지 않고<br />
-      사용자에게 즉시 전달합니다.
-    </p>
-
-    <div class="mt-6 flex flex-wrap gap-2">
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
-      >
-        Toast system
-      </span>
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
-      >
-        Async UX
-      </span>
-      <span
-        class="border-divider text-ink-700 group-hover:text-space-900 group-hover:border-space-900/30 rounded-full border px-3 py-1 text-xs"
-      >
-        Predictability
-      </span>
-    </div>
-  </article>
-
-  <article
-    class="bg-space-900 hover:bg-space-950 group p-10 transition-colors duration-700 md:p-12"
-  >
-    <span class="text-brand-mint group-hover:text-ink-900 font-mono text-sm">
-      03/
-    </span>
-
-    <h2 class="text-ink-900 mt-4 text-3xl font-black md:text-4xl">
-      Real-Time Consistency
-    </h2>
-
-    <p class="text-ink-700 mt-4 leading-relaxed">
-      여러 클라이언트가 동시에 움직여도<br />
-      화면이 어긋나지 않게 만듭니다.
-    </p>
-
-    <div class="mt-6 flex flex-wrap gap-2">
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >WebSocket</span
-      >
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >Cache sync</span
-      >
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >Edge cases</span
-      >
-    </div>
-  </article>
-
-  <article
-    class="bg-space-900 hover:bg-space-950 group p-10 transition-colors duration-700 md:p-12"
-  >
-    <span class="text-brand-red group-hover:text-ink-900 font-mono text-sm">
-      04/
-    </span>
-
-    <h2 class="text-ink-900 mt-4 text-3xl font-black md:text-4xl">
-      Systemized UI Foundation
-    </h2>
-
-    <p class="text-ink-700 mt-4 leading-relaxed">
-      토큰과 컴포넌트 규칙을 먼저 만들고,<br />
-      유지보수 가능한 형태로 확장합니다.
-    </p>
-
-    <div class="mt-6 flex flex-wrap gap-2">
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >Design tokens</span
-      >
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >Component patterns</span
-      >
-      <span
-        class="border-divider text-ink-700 rounded-full border px-3 py-1 text-xs"
-        >Documentation</span
-      >
-    </div>
-  </article>
+        <div class="mt-6">
+          <TagPills tags={getPrincipleTags(p.no)} toneClass={TONE_CLASS} />
+        </div>
+      </article>
+    ))
+  }
 </section>
+
+<style>
+  article.group:hover :global(.tag-list) :global(.tag-pill) {
+    border-color: rgba(0, 0, 0, 0.22);
+    background-color: rgba(255, 255, 255, 0.14);
+    color: rgba(3, 3, 4, 0.9);
+  }
+
+  article.group:hover :global(.tag-list) :global(.tag-pill:hover),
+  article.group:hover :global(.tag-list) :global(.group:hover .tag-pill),
+  article.group:hover :global(.tag-list) :global(.tag-pill:focus-visible) {
+    border-color: rgba(0, 0, 0, 0.32);
+    background-color: rgba(255, 255, 255, 0.22);
+  }
+
+  article.group:hover :global(.tag-list) :global(.tag-tooltip) {
+    background: rgba(3, 3, 4, 0.92);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  article.group:hover :global(.tag-list) :global(.tag-tooltip__arrow) {
+    background: rgba(3, 3, 4, 0.92);
+    border-left-color: rgba(255, 255, 255, 0.14);
+    border-top-color: rgba(255, 255, 255, 0.14);
+  }
+</style>

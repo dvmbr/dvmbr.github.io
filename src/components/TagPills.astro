@@ -1,0 +1,165 @@
+---
+import type { Tag, Tone } from "../data/tags";
+
+type Props = {
+  tags: Tag[];
+  toneClass: Record<Tone, string>;
+  className?: string;
+};
+
+const { tags, toneClass, className = "" } = Astro.props;
+---
+
+<div class={`tag-list ${className}`}>
+  {
+    tags.map(({ label, tone, hint }) => (
+      <span class="tag group">
+        <span tabindex="0" class={`tag-pill ${toneClass[tone]}`}>
+          {label}
+        </span>
+
+        <span class="tag-tooltip" role="tooltip">
+          <span class="tag-tooltip__title">{label}</span>
+          <span class="tag-tooltip__desc">{hint}</span>
+          <span class="tag-tooltip__arrow" />
+        </span>
+      </span>
+    ))
+  }
+</div>
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .tag-pill {
+    border-radius: 9999px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-stroke-dim, rgba(255, 255, 255, 0.05));
+
+    padding: 0.25rem 0.75rem;
+    line-height: 1.25rem;
+    font-size: 0.875rem;
+
+    transition-property: transform, background-color, border-color;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+  }
+
+  .tag-pill:hover,
+  .group:hover .tag-pill,
+  .tag-pill:focus-visible,
+  .group:focus-within .tag-pill {
+    transform: translateY(-1px);
+    border-color: var(--color-stroke-bright, rgba(255, 255, 255, 0.2));
+    background-color: rgba(255, 255, 255, 0.04);
+    outline: none;
+  }
+
+  .tag-pill:focus-visible {
+    box-shadow: 0 0 0 2px rgba(103, 255, 240, 0.25);
+  }
+
+  .tag-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 50;
+
+    margin-top: 0.5rem;
+    width: max-content;
+    max-width: 16rem;
+
+    transform: translateX(-50%) translateY(4px) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    background: rgba(3, 3, 4, 0.9);
+    backdrop-filter: blur(12px);
+
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    line-height: 1.25;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+    transition-property: opacity, transform;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+  }
+
+  .group:hover .tag-tooltip,
+  .group:focus-within .tag-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1.02);
+  }
+
+  .tag-tooltip__title {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .tag-tooltip__desc {
+    display: block;
+    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .tag-tooltip__arrow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    width: 0.5rem;
+    height: 0.5rem;
+
+    transform: translate(-50%, -50%) rotate(45deg);
+
+    background: rgba(3, 3, 4, 0.9);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  .group:hover .tag-tooltip__arrow,
+  .group:focus-within .tag-tooltip__arrow {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tag-pill,
+    .tag-tooltip,
+    .tag-tooltip__arrow {
+      transition: none;
+    }
+    .tag-pill:hover,
+    .tag-pill:focus-visible,
+    .group:hover .tag-pill,
+    .group:focus-within .tag-pill {
+      transform: none;
+    }
+    .group:hover .tag-tooltip,
+    .group:focus-within .tag-tooltip {
+      transform: translateX(-50%);
+    }
+  }
+</style>
