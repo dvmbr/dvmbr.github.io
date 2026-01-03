@@ -1,0 +1,51 @@
+---
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import BaseBody from "../components/BaseBody.astro";
+
+import meImg from "../assets/ghibli.png";
+import { Image } from "astro:assets";
+import IconGithub from "../components/icons/IconGithub.astro";
+import IconAtSign from "../components/icons/IconAtSign.astro";
+import IconLinkedIn from "../components/icons/IconLinkedIn.astro";
+import IconMessageSquareQuote from "../components/icons/IconMessageSquareQuote.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <BaseHead />
+  <BaseBody>
+    <main class="bg-space-950 mx-auto h-dvh max-w-sm px-6 py-16">
+      <header class="flex flex-col items-center">
+        <Image
+          src={meImg}
+          alt="DVMBR Portrait"
+          class="h-32 w-32 rounded-full object-cover object-center"
+        />
+        <h1>DVMBR</h1>
+        <p>Software Engineer</p>
+        <p>Korea, Republic of</p>
+        <ul class="grid grid-cols-2 gap-1">
+          <li class="flex flex-col items-center">
+            <IconGithub className="link-icon" />
+            <span>GitHub</span>
+          </li>
+          <li class="flex flex-col items-center">
+            <IconLinkedIn className="link-icon" />
+            <span>LinkedIn</span>
+          </li>
+          <li class="flex flex-col items-center">
+            <IconAtSign className="link-icon" />
+            <span>Mail</span>
+          </li>
+
+          <li class="flex flex-col items-center">
+            <IconMessageSquareQuote className="link-icon" />
+            <span>Blog</span>
+          </li>
+        </ul>
+        <div></div>
+      </header>
+    </main>
+  </BaseBody>
+</html>

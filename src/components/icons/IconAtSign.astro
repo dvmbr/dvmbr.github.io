@@ -1,0 +1,13 @@
+---
+import { AtSign } from "@lucide/astro";
+
+type Props = {
+  className?: string;
+};
+const { className } = Astro.props;
+---
+
+<a href="mailto:itsdvmbr@gmail.com">
+  <span class="sr-only">Send an email to dvmbr</span>
+  <AtSign class={className} />
+</a>

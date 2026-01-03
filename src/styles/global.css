@@ -37,50 +37,40 @@
 
 /* 글로벌 스타일: 마우스 드래그 색상도 브랜드 컬러로 변경 */
 ::selection {
-  background-color: var(--color-brand-red);
-  color: var(--color-brand-mint);
+  @apply bg-brand-red text-brand-mint;
 }
 
 /* 스크롤바 커스텀 */
 ::-webkit-scrollbar {
-  width: 4px;
+  @apply w-1;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-space-950);
+  @apply bg-space-950;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand-red);
-}
-
-:root {
-  --site-header: 81px;
+  @apply bg-brand-red;
 }
 
 /* 기본 서체 설정 */
 body {
-  font-size: 20px;
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  word-break: keep-all;
-  line-height: 1.6;
+  @apply font-sans text-xl leading-relaxed break-keep antialiased md:text-lg;
 }
 
 /* 제목 전용 유틸리티 */
 h1,
 h2,
 h3 {
-  font-family: var(--font-display);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
+  @apply font-display leading-tight font-black tracking-tighter;
 }
 
-@media (max-width: 768px) {
-  :root {
-    --site-header: 78px;
-  }
+h1 {
+  @apply text-4xl;
+}
 
-  body {
-    font-size: 18px;
-  }
+.site-header-height {
+  @apply h-[81px] md:h-[78px];
+}
+
+.link-icon {
+  @apply h-8 w-8;
 }

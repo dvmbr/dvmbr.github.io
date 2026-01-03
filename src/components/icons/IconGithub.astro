@@ -1,0 +1,14 @@
+---
+import { Image } from "astro:assets";
+import githubMark from "../../assets/github-mark/github-mark-white.svg";
+
+type Props = {
+  className?: string;
+};
+const { className } = Astro.props;
+---
+
+<a href="https://github.com/dvmbr" target="_blank">
+  <span class="sr-only">Go to dvmbr's GitHub repo</span>
+  <Image src={githubMark} alt="Go to dvmbr's GitHub repo" class={className} />
+</a>

@@ -1,0 +1,13 @@
+---
+import { MessageSquareQuote } from "@lucide/astro";
+
+type Props = {
+  className?: string;
+};
+const { className } = Astro.props;
+---
+
+<a href="https://dvmbr.tistory.com" target="_blank">
+  <span class="sr-only">Go to dvmbr's blog</span>
+  <MessageSquareQuote class={className} />
+</a>

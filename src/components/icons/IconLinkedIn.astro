@@ -1,0 +1,14 @@
+---
+import { Image } from "astro:assets";
+import inBug from "../../assets/in-logo/InBug-White.png";
+
+type Props = {
+  className?: string;
+};
+const { className } = Astro.props;
+---
+
+<a href="https://dvmbr.tistory.com" target="_blank">
+  <span class="sr-only">Go to dvmbr's linked-in page</span>
+  <Image src={inBug} alt="Go to dvmbr's linked-in page" class={className} />
+</a>
