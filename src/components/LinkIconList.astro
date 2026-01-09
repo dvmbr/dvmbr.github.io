@@ -1,0 +1,33 @@
+---
+import { MessageSquareQuote, Mail } from "@lucide/astro";
+import LinkIcon from "./LinkIcon.astro";
+import githubMark from "../assets/github-mark/github-mark-white.svg";
+import inBug from "../assets/in-logo/InBug-White.png";
+---
+
+<ul class="mt-6 flex flex-col gap-2">
+  <li class="flex items-center">
+    <LinkIcon to="https://github.com/dvmbr" label="github.com/dvmbr">
+      <img slot="icon" src={githubMark.src} class="h-4 w-4" />
+    </LinkIcon>
+  </li>
+
+  <li class="flex items-center">
+    <LinkIcon to="https://dvmbr.tistory.com" label="dvmbr.tistory.com">
+      <MessageSquareQuote slot="icon" class="h-4 w-4" />
+    </LinkIcon>
+  </li>
+  <li class="flex items-center">
+    <LinkIcon to="mailto:itsdvmbr@gmail.com" label="itsdvmbr@gmail.com">
+      <Mail slot="icon" class="h-4 w-4" />
+    </LinkIcon>
+  </li>
+  <li class="flex items-center">
+    <LinkIcon
+      to="https://www.linkedin.com/in/jekwang-woo-b876a53a1"
+      label="LinkedIn"
+    >
+      <img slot="icon" src={inBug.src} class="h-4 w-4" />
+    </LinkIcon>
+  </li>
+</ul>

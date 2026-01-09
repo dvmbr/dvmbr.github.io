@@ -4,11 +4,17 @@ import githubMark from "../../assets/github-mark/github-mark-white.svg";
 
 type Props = {
   className?: string;
+  label?: string;
 };
-const { className } = Astro.props;
+const { className, label } = Astro.props;
 ---
 
-<a href="https://github.com/dvmbr" target="_blank">
+<a
+  href="https://github.com/dvmbr"
+  target="_blank"
+  class="flex items-center gap-2"
+>
   <span class="sr-only">Go to dvmbr's GitHub repo</span>
   <Image src={githubMark} alt="Go to dvmbr's GitHub repo" class={className} />
+  {label && <span class="text-sm">{label}</span>}
 </a>

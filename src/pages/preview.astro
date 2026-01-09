@@ -3,12 +3,11 @@ import "../styles/global.css";
 import BaseHead from "../components/BaseHead.astro";
 import BaseBody from "../components/BaseBody.astro";
 
-import meImg from "../assets/popart.png";
+import meImg from "../assets/ghibli.png";
 import { Image } from "astro:assets";
-import IconGithub from "../components/icons/IconGithub.astro";
-import IconAtSign from "../components/icons/IconAtSign.astro";
-import IconLinkedIn from "../components/icons/IconLinkedIn.astro";
-import IconMessageSquareQuote from "../components/icons/IconMessageSquareQuote.astro";
+
+import TechStackList from "../components/TechStackList.astro";
+import LinkIconList from "../components/LinkIconList.astro";
 ---
 
 <!doctype html>
@@ -17,33 +16,38 @@ import IconMessageSquareQuote from "../components/icons/IconMessageSquareQuote.a
   <BaseBody>
     <main class="bg-space-950 mx-auto h-dvh max-w-sm px-6 py-16">
       <header class="flex flex-col items-center">
-        <Image
-          src={meImg}
-          alt="DVMBR Portrait"
-          class="h-32 w-32 rounded-full object-cover object-center"
-        />
-        <h1>DVMBR</h1>
-        <p>Software Engineer</p>
-        <p>Korea, Republic of</p>
-        <ul class="grid grid-cols-2 gap-1">
-          <li class="flex flex-col items-center">
-            <IconGithub className="link-icon" />
-            <span>GitHub</span>
-          </li>
-          <li class="flex flex-col items-center">
-            <IconLinkedIn className="link-icon" />
-            <span>LinkedIn</span>
-          </li>
-          <li class="flex flex-col items-center">
-            <IconAtSign className="link-icon" />
-            <span>Mail</span>
-          </li>
+        <div
+          class="from-brand-mint to-brand-red relative inline-flex rounded-full bg-linear-to-br p-0.5"
+        >
+          <Image
+            src={meImg}
+            alt="DVMBR Portrait"
+            class="bg-space-950 h-32 w-32 rounded-full object-cover object-center"
+          />
+          {/* Status badge */}
+          <div
+            class="absolute right-0 bottom-0 flex translate-x-8 items-center gap-2 text-xs text-white"
+          >
+            <div class="bg-space-950">
+              <span
+                class="ring-space-950 bg-brand-mint block h-2.5 w-2.5 animate-pulse rounded-full ring-2"
+              ></span>
+            </div>
+            <span class="text-ink-main/80 font-medium whitespace-nowrap"
+              >Available</span
+            >
+          </div>
+        </div>
 
-          <li class="flex flex-col items-center">
-            <IconMessageSquareQuote className="link-icon" />
-            <span>Blog</span>
-          </li>
-        </ul>
+        <div class="mt-6">
+          <h1 class="text-ink-main mb-1 text-2xl font-black tracking-tight">
+            DVMBR
+          </h1>
+          <p class="text-ink-sub text-sm font-medium">Software Engineer</p>
+          <p class="text-ink-sub/80 text-xs">Korea, Republic of</p>
+        </div>
+        <TechStackList />
+        <LinkIconList />
         <div></div>
       </header>
     </main>

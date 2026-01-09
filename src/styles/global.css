@@ -70,7 +70,3 @@ h1 {
 .site-header-height {
   @apply h-[81px] md:h-[78px];
 }
-
-.link-icon {
-  @apply h-8 w-8;
-}
