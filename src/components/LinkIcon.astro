@@ -7,7 +7,11 @@ type Props = {
 const { to, label, sr = label } = Astro.props;
 ---
 
-<a href={to} target="_blank" class="flex items-center gap-2">
+<a
+  href={to}
+  target="_blank"
+  class="border-outline mx-auto flex items-center gap-2"
+>
   <span class="sr-only">{sr}</span>
   <slot name="icon" />
   <span class="text-sm">{label}</span>
