@@ -1,8 +1,10 @@
 ---
 import CursorFollower from "@/components/interactions/CursorFollower.astro";
+import SnowBackground from "@/components/interactions/SnowBackground.astro";
 ---
 
 <>
   <slot />
   <CursorFollower speed={0.064} offset={24} />
+  <SnowBackground count={80} wind={0.24} />
 </>

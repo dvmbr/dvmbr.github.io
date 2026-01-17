@@ -9,22 +9,23 @@ const { speed = 0.04, offset = 24 } = Astro.props;
 
 <div
   data-cursor-follower
+  data-speed={speed}
+  data-offset={offset}
   class="pointer-events-none fixed top-0 left-0 z-9999 h-4.5 w-4.5 rounded-full blur-[2px]"
 >
 </div>
 
-<script is:inline define:vars={{ speed, offset }}>
-  /*
-   - NOTE:
-   - define:vars로 주입되는 speed/offset은 TS 언어 서버에서 경고가 날 수 있음
-   - 런타임은 정상 동작
-  */
-  const SPEED = Math.max(0, Math.min(1, speed));
-  const OFFSET = offset;
-
+<script is:inline type="module">
   const el = document.querySelector("[data-cursor-follower]");
 
-  if (el instanceof HTMLElement) {
+  if (!(el instanceof HTMLElement)) {
+    // nothing
+  } else {
+    /*
+      - Config
+    */
+    const SPEED = Number(el.dataset.speed);
+    const OFFSET = Number(el.dataset.offset);
     let tx = 0,
       ty = 0,
       cx = 0,
