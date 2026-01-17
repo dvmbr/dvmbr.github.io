@@ -1,6 +1,3 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap&family=Inter:wght@400;700&family=JetBrains+Mono:wght@700&family=Noto+Sans+KR:wght@900&display=swap");
-
 @import "tailwindcss";
 
 @theme {
@@ -27,46 +24,9 @@
   /* Detail: 완성도를 결정짓는 수치 */
   --radius-none: 0px; /* 대담하게 각진 모서리로 신뢰감 형성 */
   --radius-full: 9999px; /* 버튼은 완전한 캡슐형으로 대비 */
-
-  /* Font 정의 */
-  --font-sans: "Pretendard", "Inter", sans-serif;
-  --font-display:
-    "Space Grotesk", "Noto Sans KR", sans-serif; /* 제목용, 영문은 Syne, 국문은 Noto Sans 900 */
-  --font-mono: "JetBrains Mono", monospace; /* 각주/데이터용 */
 }
 
 /* 글로벌 스타일: 마우스 드래그 색상도 브랜드 컬러로 변경 */
 ::selection {
   @apply bg-brand-red text-brand-mint;
-}
-
-/* 스크롤바 커스텀 */
-::-webkit-scrollbar {
-  @apply w-1;
-}
-::-webkit-scrollbar-track {
-  @apply bg-space-950;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-brand-red;
-}
-
-/* 기본 서체 설정 */
-body {
-  @apply font-sans text-xl leading-relaxed break-keep antialiased md:text-lg;
-}
-
-/* 제목 전용 유틸리티 */
-h1,
-h2,
-h3 {
-  @apply font-display leading-tight font-black tracking-tighter;
-}
-
-h1 {
-  @apply text-4xl;
-}
-
-.site-header-height {
-  @apply h-[81px] md:h-[78px];
 }
