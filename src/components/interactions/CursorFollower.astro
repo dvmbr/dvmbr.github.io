@@ -1,0 +1,75 @@
+---
+type Props = {
+  speed?: number; // 0..1
+  offset?: number; // px
+};
+
+const { speed = 0.04, offset = 24 } = Astro.props;
+---
+
+<div
+  data-cursor-follower
+  class="pointer-events-none fixed top-0 left-0 z-9999 h-4.5 w-4.5 rounded-full blur-[2px]"
+>
+</div>
+
+<script is:inline define:vars={{ speed, offset }}>
+  /*
+   - NOTE:
+   - define:vars로 주입되는 speed/offset은 TS 언어 서버에서 경고가 날 수 있음
+   - 런타임은 정상 동작
+  */
+  const SPEED = Math.max(0, Math.min(1, speed));
+  const OFFSET = offset;
+
+  const el = document.querySelector("[data-cursor-follower]");
+
+  if (el instanceof HTMLElement) {
+    let tx = 0,
+      ty = 0,
+      cx = 0,
+      cy = 0;
+    let rafId = null;
+
+    const onMove = (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    };
+
+    const loop = () => {
+      cx += (tx - cx) * SPEED;
+      cy += (ty - cy) * SPEED;
+
+      el.style.transform = `translate(${cx + OFFSET}px, ${cy + OFFSET}px) translate(-50%, -50%)`;
+      rafId = window.requestAnimationFrame(loop);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    loop();
+
+    const unmount = () => {
+      window.removeEventListener("mousemove", onMove);
+      if (rafId != null) window.cancelAnimationFrame(rafId);
+    };
+
+    window.addEventListener("unload", unmount, { once: true });
+  }
+</script>
+
+<style>
+  [data-cursor-follower] {
+    background: color-mix(in oklab, var(--color-brand-red) 90%, transparent);
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    [data-cursor-follower] {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-cursor-follower] {
+      display: none;
+    }
+  }
+</style>

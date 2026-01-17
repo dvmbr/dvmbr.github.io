@@ -1,17 +1,12 @@
 ---
-import HomeCTA from "../components/home/HomeCTA.astro";
-import HomeFeature from "../components/home/HomeFeature.astro";
-import HomeHero from "../components/home/HomeHero.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import InteractionStage from "@/layouts/InteractionStage.astro";
 ---
 
-<BaseLayout>
-  <!-- HERO -->
-  <HomeHero />
-
-  <!-- FEATURE GRID -->
-  <HomeFeature />
-
-  <!-- CTA -->
-  <HomeCTA />
+<BaseLayout title="Hello It's DVMBR" description="DVMBR home">
+  <InteractionStage>
+    <main>
+      <h1>Home</h1>
+    </main>
+  </InteractionStage>
 </BaseLayout>
