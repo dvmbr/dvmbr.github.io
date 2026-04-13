@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.woff2")
+    format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Core: 타협 없는 강렬함 */
   --color-brand-red: #ff3131;
@@ -24,6 +33,10 @@
   /* Detail: 완성도를 결정짓는 수치 */
   --radius-none: 0px; /* 대담하게 각진 모서리로 신뢰감 형성 */
   --radius-full: 9999px; /* 버튼은 완전한 캡슐형으로 대비 */
+
+  --font-sans:
+    "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 /* 글로벌 스타일: 마우스 드래그 색상도 브랜드 컬러로 변경 */

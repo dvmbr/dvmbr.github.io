@@ -1,10 +1,296 @@
 ---
 import CursorFollower from "@/components/interactions/CursorFollower.astro";
 import SnowBackground from "@/components/interactions/SnowBackground.astro";
+import SnowBackground2 from "@/components/interactions/SnowBackground2.astro";
+
+const bgList = [
+  {
+    id: "bg-snow",
+    label: "snow",
+  },
+  {
+    id: "bg-star",
+    label: "star",
+  },
+  {
+    id: "bg-meteor",
+    label: "meteor",
+  },
+  {
+    id: "bg-simple",
+    label: "simple",
+  },
+];
 ---
 
 <>
+  <div class="fixed bottom-0 z-auto">
+    <div class="flex">
+      <div class="marquee bg-white text-6xl">
+        <div class="marquee__inner">
+          <span>Infinity Words Here &infin;</span>
+          <span>Infinity Words Here &infin;</span>
+          <span>Infinity Words Here &infin;</span>
+          <span>Infinity Words Here &infin;</span>
+          <span>Infinity Words Here &infin;</span>
+        </div>
+      </div>
+
+      <button class="w-1 text-[rgba(255,255,255,1)]">left</button>
+      <ul class="outline-text text-8xl font-bold">
+        <li>SNOW</li>
+        <li>STAR</li>
+        <li>METEOR</li>
+      </ul>
+      <button class="w-1">right</button>
+    </div>
+  </div>
+  <div class="dial" data-dial>
+    <div class="dial-track" data-dial-track>
+      {
+        bgList.map(({ id, label }) => (
+          <button type="button" class="dial-item" data-bg-pick={id}>
+            <span class="dial-label">{label.toUpperCase()}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
   <slot />
   <CursorFollower speed={0.064} offset={24} />
   <SnowBackground count={80} wind={0.24} />
 </>
+
+<script is:inline>
+  const KEY = "dvmbr:bg";
+
+  const dial = document.querySelector("[data-dial]");
+  const track = document.querySelector("[data-dial-track]");
+  const items = Array.from(document.querySelectorAll(".dial-item"));
+
+  if (!dial || !track || items.length === 0) {
+    // nothing
+  } else {
+    let index = 0;
+
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    function applyIndex(next) {
+      index = clamp(next, 0, items.length - 1);
+
+      // 선택 표시
+      items.forEach((btn, i) => {
+        btn.setAttribute("aria-current", i === index ? "true" : "false");
+      });
+
+      // track 이동 -> 선택된 아이템이 중앙에 오게
+      const target = items[index];
+      const dialRect = dial.getBoundingClientRect();
+      const tRect = target.getBoundingClientRect();
+
+      const dialCenter = dialRect.left + dialRect.width / 2;
+      const targetCenter = tRect.left + tRect.width / 2;
+
+      // 현재 translateX 값 읽기
+      const style = getComputedStyle(track);
+      const matrix = new DOMMatrixReadOnly(style.transform);
+      const currentX = matrix.m41;
+
+      const delta = dialCenter - targetCenter;
+      const nextX = currentX + delta;
+
+      track.style.transform = `translateX(${nextX}px)`;
+
+      // 배경 적용 (네가 이미 만든 apply 함수 있으면 그걸로 교체)
+      const id = target.dataset.bgPick;
+      if (id) localStorage.setItem(KEY, id);
+
+      // 여기서 실제 배경 보이기/숨기기 호출하면 됨:
+      // applyBackgroundById(id)
+      const bgs = Array.from(document.querySelectorAll("[data-bg]"));
+      bgs.forEach((el) => (el.hidden = el.dataset.bg !== id));
+    }
+
+    function init() {
+      const saved = localStorage.getItem(KEY);
+      const savedIndex = saved
+        ? items.findIndex((b) => b.dataset.bgPick === saved)
+        : 0;
+      applyIndex(savedIndex >= 0 ? savedIndex : 0);
+    }
+
+    // 클릭으로도 선택
+    items.forEach((btn, i) => {
+      btn.addEventListener("click", () => applyIndex(i));
+    });
+
+    // 휠로 좌우 이동 (트랙패드에도 잘 먹음)
+    dial.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
+        const dir =
+          Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (dir > 0) applyIndex(index + 1);
+        else applyIndex(index - 1);
+      },
+      { passive: false }
+    );
+
+    // 드래그로 이동
+    let dragging = false;
+    let startX = 0;
+    let startIndex = 0;
+
+    dial.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      dial.setPointerCapture(e.pointerId);
+      startX = e.clientX;
+      startIndex = index;
+      track.style.transition = "none";
+    });
+
+    dial.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+
+      // 드래그 거리에 따라 인덱스 변화 (감도 조절 가능)
+      const step = 120; // 값 작을수록 민감
+      const moved = Math.round(-dx / step);
+      applyIndex(startIndex + moved);
+    });
+
+    dial.addEventListener("pointerup", () => {
+      dragging = false;
+      track.style.transition = "transform 260ms ease";
+    });
+
+    // 키보드 지원
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") applyIndex(index + 1);
+      if (e.key === "ArrowLeft") applyIndex(index - 1);
+    });
+
+    // 초기화
+    init();
+
+    // 리사이즈 시 중앙 재정렬
+    window.addEventListener("resize", () => applyIndex(index));
+  }
+</script>
+
+<style>
+  .marquee {
+    width: 100%;
+    overflow: hidden; /* Hides the text outside the box */
+    white-space: nowrap; /* Keeps text on one line */
+    border: 1px solid black;
+  }
+
+  .marquee__inner {
+    display: flex;
+    width: 200%; /* Important: needs to be double to accommodate duplicates */
+    animation: scroll-left 10s linear infinite; /* 10s is speed */
+  }
+
+  .marquee__inner span {
+    width: 50%; /* Each set takes up half the 200% width */
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    } /* Moves first set out */
+  }
+
+  .text-stroke {
+    /* Set the fill color to transparent */
+    color: transparent;
+
+    /* Apply the stroke (outline) */
+    /* Syntax: width color */
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px white; /* For all major browsers */
+    text-stroke: 2px white; /* Standard property, less widely supported than webkit prefix */
+  }
+
+  .shadow-stroke {
+    --blur: 4px;
+    --rgba: rgba(255, 255, 255, 0.01);
+    text-shadow:
+      -1px -1px var(--blur) var(--rgba),
+      1px -1px var(--blur) var(--rgba),
+      -1px 1px var(--blur) var(--rgba),
+      1px 1px var(--blur) var(--rgba);
+  }
+  .dial {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 24px 0;
+    user-select: none;
+  }
+
+  /* 가운데 선택 영역을 강조하는 마스크 느낌 */
+  .dial::before,
+  .dial::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .dial::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(3, 3, 4, 1), rgba(3, 3, 4, 0));
+  }
+  .dial::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(3, 3, 4, 1), rgba(3, 3, 4, 0));
+  }
+
+  .dial-track {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    will-change: transform;
+    transition: transform 260ms ease;
+    padding: 0 40vw; /* 가운데 정렬용 여백 */
+  }
+
+  .dial-item {
+    flex: 0 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 16px 22px;
+    background: #ff3131;
+    transform: scale(0.92);
+    opacity: 0.65;
+    transition:
+      transform 220ms ease,
+      opacity 220ms ease,
+      filter 220ms ease;
+  }
+
+  .dial-item[aria-current="true"] {
+    transform: scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
+  }
+
+  .dial-label {
+    color: #67fff0;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+</style>
