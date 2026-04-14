@@ -32,7 +32,7 @@ export default function ProjectAccordion({ projects }: Props) {
                   {project.stack.map((tech) => (
                     <span
                       key={tech}
-                      className="border-border bg-muted text-muted-foreground rounded-full border px-3 py-1 text-xs"
+                      className="border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground rounded-full border px-3 py-1 transition-all duration-200 hover:-translate-y-0.5"
                     >
                       {tech}
                     </span>

@@ -34,10 +34,10 @@ export default function Pagination({
             onClick={() => onPageChange(page)}
             aria-current={isActive ? "page" : undefined}
             className={[
-              "rounded-full px-4 py-2 text-sm transition",
+              "rounded-full px-4 py-2 text-sm transition-all duration-200",
               isActive
-                ? "bg-foreground text-background"
-                : "border-border bg-background hover:bg-muted border",
+                ? "bg-foreground text-background shadow-sm"
+                : "border-border bg-background hover:bg-muted border hover:-translate-y-0.5",
             ].join(" ")}
           >
             {page}

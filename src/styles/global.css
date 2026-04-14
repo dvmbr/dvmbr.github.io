@@ -24,6 +24,19 @@
 
 @theme {
   --font-custom: "SpaceGrotesk", "NotoSansKR", system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.7s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 .typo-content {
