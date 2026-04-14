@@ -1,19 +1,20 @@
 ---
-import RootLayout from "../layouts/RootLayout.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import ProjectPagination from "@/components/projects/ProjectPagination";
 ---
 
 <RootLayout>
   <!-- page wrapper -->
   <div class="font-custom">
     <!-- hero -->
-    <section class="container mx-auto px-4 py-24">
+    <section class="typo-content container mx-auto px-4 py-24">
       <div class="flex justify-center">
         <div class="max-w-3xl text-center">
-          <h1 class="text-4xl font-bold tracking-tight md:text-6xl">
+          <h1>
             I build on the web — experimenting, creating, and contributing
           </h1>
 
-          <p class="text-muted mt-6 text-lg">
+          <p class="mt-6 text-lg!">
             A web developer who enjoys trying ideas and turning them into real
             things.
           </p>
@@ -22,120 +23,20 @@ import RootLayout from "../layouts/RootLayout.astro";
     </section>
     <!-- //hero -->
 
-    <section class="container mx-auto">
-      <section class="mx-auto max-w-4xl px-4 py-16">
-        <div class="mb-10">
-          <p class="text-ink-sub text-sm tracking-[0.2em] uppercase">
-            Selected Project
-          </p>
-          <h2 class="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
-            Invite Benefit & Chat Service
-          </h2>
-          <p class="text-ink-sub mt-4 max-w-2xl text-sm leading-7 md:text-base">
-            A web-based invite flow designed to connect user acquisition,
-            benefit distribution, and chat entry through shared links and
-            parameter-based routing.
-          </p>
-        </div>
+    <!-- projects -->
+    <section class="typo-content container mx-auto px-4 py-16">
+      <div class="mb-10">
+        <h2>Projects</h2>
+        <p class="mt-3 text-lg!">
+          Selected work focused on structure, flow, and practical
+          problem-solving.
+        </p>
+      </div>
 
-        <article
-          class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm md:p-8"
-        >
-          <div class="flex flex-col gap-6">
-            <div class="text-ink-sub flex flex-wrap items-center gap-3 text-sm">
-              <span class="rounded-full border border-white/10 px-3 py-1"
-                >2025.09 - 2025.12</span
-              >
-              <span class="rounded-full border border-white/10 px-3 py-1"
-                >React</span
-              >
-              <span class="rounded-full border border-white/10 px-3 py-1"
-                >TypeScript</span
-              >
-              <span class="rounded-full border border-white/10 px-3 py-1"
-                >Redux</span
-              >
-              <span class="rounded-full border border-white/10 px-3 py-1"
-                >CSS Modules</span
-              >
-            </div>
-
-            <div>
-              <h3 class="text-lg font-medium text-white">Overview</h3>
-              <p class="text-ink-sub mt-3 text-sm leading-7 md:text-base">
-                This project focused on building an invite-based entry structure
-                shared through external channels. It was designed to identify
-                where users came from, guide them through sign-up and chat
-                access based on their state, and connect the flow to invite
-                benefits in a maintainable way.
-              </p>
-            </div>
-
-            <div class="grid gap-6 md:grid-cols-3">
-              <div class="rounded-xl border border-white/10 bg-black/10 p-5">
-                <p class="text-ink-sub text-xs tracking-[0.18em] uppercase">
-                  Problem
-                </p>
-                <p class="mt-3 text-sm leading-7 text-white/90">
-                  Users entering through external invite links needed a clear
-                  and structured flow that could distinguish inflow paths,
-                  handle different user states, and connect them to the right
-                  next action.
-                </p>
-              </div>
-
-              <div class="rounded-xl border border-white/10 bg-black/10 p-5">
-                <p class="text-ink-sub text-xs tracking-[0.18em] uppercase">
-                  Solution
-                </p>
-                <p class="mt-3 text-sm leading-7 text-white/90">
-                  Designed a parameter-based invite structure using invite codes
-                  and routing logic. Built a user-state-driven flow that
-                  connected entry, sign-up, benefit handling, and chat access
-                  into one consistent experience.
-                </p>
-              </div>
-
-              <div class="rounded-xl border border-white/10 bg-black/10 p-5">
-                <p class="text-ink-sub text-xs tracking-[0.18em] uppercase">
-                  Impact
-                </p>
-                <p class="mt-3 text-sm leading-7 text-white/90">
-                  Made the invite flow easier to manage and extend, while
-                  reducing maintenance cost through shared configuration and
-                  clearer structural organization.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-lg font-medium text-white">Key Contributions</h3>
-              <ul
-                class="text-ink-sub mt-4 space-y-3 text-sm leading-7 md:text-base"
-              >
-                <li>
-                  - Designed an inflow structure based on invite links shared
-                  through external channels.
-                </li>
-                <li>
-                  - Implemented route identification logic using invite codes
-                  and parameters.
-                </li>
-                <li>
-                  - Structured sign-up and chat connection flows based on user
-                  state.
-                </li>
-                <li>- Connected inflow user data to benefit handling logic.</li>
-                <li>
-                  - Reduced maintenance cost by organizing shared settings and
-                  common structure.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </article>
-      </section>
+      <ProjectPagination client:load />
     </section>
+    <!-- //projects -->
   </div>
+
   <!-- //page wrapper -->
 </RootLayout>
