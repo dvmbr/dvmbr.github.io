@@ -1,26 +1,101 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
-import ProjectPagination from "@/components/projects/ProjectPagination";
+import AboutArticle from "@/components/home/about/AboutArticle.astro";
+import ProjectPagination from "@/components/home/projects/ProjectPagination";
+import GithubIcon from "@/components/icons/GithubIcon.astro";
+import MailIcon from "@/components/icons/MailIcon.astro";
+import { Icon } from "astro-icon/components";
 ---
+
+<style>
+  .scroll-up-trigger {
+    position: absolute;
+    top: calc(100dvh - 120px);
+    right: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .scroll-up-float {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--background);
+    color: var(--muted-foreground);
+
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+    z-index: 9999;
+  }
+
+  .scroll-up-float.is-visible {
+    opacity: 0.3;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .scroll-up-float:hover {
+    opacity: 0.9;
+    color: var(--foreground);
+    transform: translateY(-2px);
+  }
+</style>
 
 <RootLayout>
   <!-- page wrapper -->
-  <div class="font-custom">
-    <!-- hero -->
-    <section class="typo-content container mx-auto h-dvh px-4 py-24">
-      <div class="flex h-full items-center justify-center">
-        <div class="animate-fade-up max-w-3xl text-center">
-          <h1>
-            I build on the web — experimenting, creating, and contributing
-          </h1>
-
-          <p class="mt-12 text-xl!">
-            A web developer who enjoys trying ideas and turning them into real
-            things.
-          </p>
+  <div class="font-custom relative">
+    <!-- floating scroll up -->
+    <div id="scroll-up-float" class="scroll-up-float">
+      <div class="flex-col gap-1">
+        <div class="flex justify-center">
+          <Icon
+            name="lucide:chevron-up-circle"
+            class="text-muted-foreground hover:text-foreground h-6 w-6 transition-colors"
+          />
         </div>
+        <span class="animate-pulse text-xs text-nowrap">scroll to top</span>
       </div>
-    </section>
+    </div>
+
+    <!-- trigger point -->
+    <div id="scroll-up-trigger" class="scroll-up-trigger" aria-hidden="true">
+    </div>
+
+    <!-- hero -->
+    <div class="bg-accent h-dvh">
+      <section class="typo-content container mx-auto h-full px-4 py-24">
+        <div class="flex h-full items-center justify-center">
+          <div class="animate-fade-up max-w-3xl text-center">
+            <h1>
+              I build on the web — experimenting, creating, and contributing
+            </h1>
+
+            <p class="mt-12 text-xl!">
+              A web developer who enjoys trying ideas and turning them into real
+              things.
+            </p>
+
+            <div class="mt-16 flex justify-center gap-6">
+              <GithubIcon />
+              <MailIcon />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <!-- //hero -->
 
     <!-- projects -->
@@ -46,38 +121,47 @@ import ProjectPagination from "@/components/projects/ProjectPagination";
         </p>
       </div>
 
-      <article class="mx-auto max-w-3xl space-y-6">
-        <p>
-          I am a web developer who enjoys experimenting with ideas and turning
-          them into working structures on the web. Through exploring new
-          approaches and trying different possibilities, I focus on going beyond
-          simple implementation and creating outcomes in my own way.
-        </p>
-
-        <p>
-          Rather than just building features, I consider user flows and
-          operational contexts to create more stable and maintainable solutions.
-          In live services, I have designed and improved web app interfaces
-          around key flows such as orders and settlements, continuously refining
-          structures while resolving recurring issues.
-        </p>
-
-        <p>
-          I have also worked on a variety of projects, including invite-based
-          entry systems, dashboards, and automation tools. Across these, I focus
-          not only on implementation, but on designing the flow and connections
-          between features. Throughout the process, I consistently think about
-          how what I build is actually used and what kind of value it creates.
-        </p>
-
-        <p>
-          I enjoy experimenting and building my own creations, and I aim to
-          ensure that what I create goes beyond a simple result and becomes
-          something genuinely useful to others.
-        </p>
-      </article>
+      <AboutArticle />
     </section>
     <!-- //about me -->
+
+    <footer class="container mx-auto px-4 py-16">
+      <div class="flex flex-col items-center gap-6 text-sm">
+        <div class="flex items-center gap-6">
+          <GithubIcon />
+          <MailIcon />
+        </div>
+
+        <p class="text-muted-foreground">© 2026 DVMBR</p>
+      </div>
+    </footer>
   </div>
   <!-- //page wrapper -->
 </RootLayout>
+
+<script is:inline>
+  const trigger = document.getElementById("scroll-up-trigger");
+  const floating = document.getElementById("scroll-up-float");
+  if (floating) {
+    floating.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  if (trigger && floating) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          floating.classList.remove("is-visible");
+        } else {
+          floating.classList.add("is-visible");
+        }
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    observer.observe(trigger);
+  }
+</script>

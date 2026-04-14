@@ -1,7 +1,7 @@
 import * as React from "react";
 import { projects } from "@/data/projects";
 import ProjectAccordion from "./ProjectAccordion";
-import Pagination from "../ui/pagination";
+import Pagination from "@/components/ui/pagination";
 
 const PROJECTS_PER_PAGE = 3;
 

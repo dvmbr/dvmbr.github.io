@@ -15,7 +15,7 @@ export default function ProjectAccordion({ projects }: Props) {
     <Accordion
       type="single"
       collapsible
-      defaultValue="project-1"
+      // defaultValue="project-1"
       className="typo-content"
     >
       {projects.map((project) => (
