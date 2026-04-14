@@ -1,0 +1,98 @@
+<style>
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--background);
+
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+
+  #intro.hide {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+  }
+
+  .intro-word {
+    display: flex;
+    gap: 0.02em;
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.08em;
+  }
+
+  .intro-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px);
+    animation: intro-char 0.6s ease forwards;
+  }
+
+  .intro-char:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .intro-char:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .intro-char:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
+  .intro-char:nth-child(4) {
+    animation-delay: 0.24s;
+  }
+
+  .intro-char:nth-child(5) {
+    animation-delay: 0.32s;
+  }
+
+  @keyframes intro-char {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+</style>
+
+<section id="intro" class="flex h-dvh w-dvw items-center justify-center">
+  <div class="intro-word" aria-label="DVMBR">
+    <span class="intro-char">D</span>
+    <span class="intro-char">V</span>
+    <span class="intro-char">M</span>
+    <span class="intro-char">B</span>
+    <span class="intro-char">R</span>
+  </div>
+</section>
+
+<script is:inline>
+  const intro = document.getElementById("intro");
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    intro.classList.add("hide");
+    document.body.style.overflow = "";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+    }, 600);
+  }, 1400);
+</script>

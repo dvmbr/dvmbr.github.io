@@ -5,6 +5,7 @@ import ProjectPagination from "@/components/home/projects/ProjectPagination";
 import GithubIcon from "@/components/icons/GithubIcon.astro";
 import MailIcon from "@/components/icons/MailIcon.astro";
 import { Icon } from "astro-icon/components";
+import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
 ---
 
 <style>
@@ -55,7 +56,8 @@ import { Icon } from "astro-icon/components";
 
 <RootLayout>
   <!-- page wrapper -->
-  <div class="font-custom relative">
+  <main class="font-custom relative">
+    <IntroDvmbr />
     <!-- floating scroll up -->
     <button id="scroll-up-float" class="scroll-up-float">
       <div class="flex-col gap-1">
@@ -135,13 +137,14 @@ import { Icon } from "astro-icon/components";
         <p class="text-muted-foreground">© 2026 DVMBR</p>
       </div>
     </footer>
-  </div>
+  </main>
   <!-- //page wrapper -->
 </RootLayout>
 
 <script is:inline>
   const trigger = document.getElementById("scroll-up-trigger");
   const floating = document.getElementById("scroll-up-float");
+
   if (floating) {
     floating.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
