@@ -74,18 +74,43 @@
   }
 </style>
 
-<section id="intro" class="flex h-dvh w-dvw items-center justify-center">
-  <div class="intro-word" aria-label="DVMBR">
-    <span class="intro-char">D</span>
-    <span class="intro-char">V</span>
-    <span class="intro-char">M</span>
-    <span class="intro-char">B</span>
-    <span class="intro-char">R</span>
-  </div>
-</section>
+<div id="intro-wrapper">
+  <section id="intro" class="flex h-dvh w-dvw items-center justify-center">
+    <div class="intro-word" aria-label="DVMBR">
+      <span class="intro-char">D</span>
+      <span class="intro-char">V</span>
+      <span class="intro-char">M</span>
+      <span class="intro-char">B</span>
+      <span class="intro-char">R</span>
+    </div>
+  </section>
+</div>
 
 <script is:inline>
+  const introWrapper = document.getElementById("intro-wrapper");
+  const INTRO_KEY = "dvmbr_intro_seen";
+  const LIMIT = 24 * 60 * 60 * 1000; // 24시간
+  const lastSeen = sessionStorage.getItem(INTRO_KEY);
+  const now = Date.now();
+  let shouldShowIntro = true;
+
+  if (lastSeen) {
+    const diff = now - Number(lastSeen);
+
+    if (diff < LIMIT) {
+      shouldShowIntro = false;
+    }
+  }
+
+  if (!shouldShowIntro) {
+    introWrapper.classList.add("hidden");
+  } else {
+    sessionStorage.setItem(INTRO_KEY, now.toString());
+  }
+
   const intro = document.getElementById("intro");
+
+  // prevent scrolling during intro animation
   document.body.style.overflow = "hidden";
 
   setTimeout(() => {
