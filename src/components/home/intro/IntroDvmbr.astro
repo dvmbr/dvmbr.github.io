@@ -26,9 +26,10 @@
   .intro-word {
     display: flex;
     gap: 0.02em;
-    font-size: clamp(4rem, 12vw, 8rem);
+    font-size: clamp(5rem, 14vw, 10rem);
     font-weight: 900;
     letter-spacing: -0.08em;
+    text-shadow: 0 0 20px color-mix(in srgb, currentColor 10%, transparent);
   }
 
   .intro-char {
@@ -94,5 +95,5 @@
     setTimeout(() => {
       intro.style.display = "none";
     }, 600);
-  }, 1400);
+  }, 1300);
 </script>
