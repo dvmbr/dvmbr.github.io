@@ -1,4 +1,6 @@
 ---
+import GithubIcon from "@/components/icons/GithubIcon.astro";
+import MailIcon from "@/components/icons/MailIcon.astro";
 import SideNav from "@/components/navigation/SideNav.astro";
 import "@/styles/global.css";
 ---
@@ -14,6 +16,16 @@ import "@/styles/global.css";
     <SideNav />
     <main>
       <slot />
+      <footer class="w-full px-4 py-16">
+        <div class="flex flex-col items-center gap-6 text-sm">
+          <div class="flex items-center gap-6">
+            <GithubIcon />
+            <MailIcon />
+          </div>
+
+          <p class="text-muted-foreground">© 2026 DVMBR</p>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

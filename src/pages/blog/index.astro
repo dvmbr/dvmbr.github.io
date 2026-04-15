@@ -1,4 +1,6 @@
 ---
+import GithubIcon from "@/components/icons/GithubIcon.astro";
+import MailIcon from "@/components/icons/MailIcon.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { getCollection } from "astro:content";
 
@@ -8,13 +10,19 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <RootLayout>
-  <main class="container mx-auto px-4 py-24">
-    <section class="typo-content">
-      <h1>Blog</h1>
-      <p class="mt-6 text-lg!">
-        Notes, thoughts, and records of what I build and explore on the web.
-      </p>
-    </section>
+  <div class="font-custom container mx-auto min-h-dvh px-4 py-24">
+    <header class="typo-content">
+      <h1>Blog — My Experiments and Logs</h1>
+      <div class="mt-6 flex flex-wrap items-center gap-6">
+        <p class="grow text-lg!">
+          Notes, thoughts, and records of what I build and explore on the web.
+        </p>
+        <div class="flex gap-4">
+          <GithubIcon />
+          <MailIcon />
+        </div>
+      </div>
+    </header>
 
     <section class="mt-16">
       <ul class="space-y-8">
@@ -38,5 +46,5 @@ const posts = (await getCollection("blog")).sort(
         }
       </ul>
     </section>
-  </main>
+  </div>
 </RootLayout>
