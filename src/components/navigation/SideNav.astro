@@ -5,6 +5,21 @@ const pathname = Astro.url.pathname;
 ---
 
 <style>
+  #side-nav-panel {
+    transform: translateX(-100%);
+    pointer-events: none;
+    transition: transform 0.28s ease;
+  }
+
+  #side-nav-panel.is-open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  #side-nav-panel.is-cueing:not(.is-open) {
+    animation: side-nav-nudge 1.6s ease-in-out 2;
+  }
+
   .side-nav-hint {
     position: absolute;
     top: 50%;
@@ -21,52 +36,18 @@ const pathname = Astro.url.pathname;
     transition:
       opacity 0.28s ease,
       box-shadow 0.28s ease;
-
-    animation: side-nav-glow 3.2s ease-in-out infinite;
   }
 
-  @keyframes side-nav-glow {
-    0%,
-    100% {
-      opacity: 0.14;
-      box-shadow:
-        0 0 6px color-mix(in srgb, var(--color-foreground) 10%, transparent),
-        0 0 14px color-mix(in srgb, var(--color-foreground) 6%, transparent);
-    }
-    50% {
-      opacity: 0.34;
-      box-shadow:
-        0 0 10px color-mix(in srgb, var(--color-foreground) 22%, transparent),
-        0 0 24px color-mix(in srgb, var(--color-foreground) 14%, transparent);
-    }
+  #side-nav-panel:not(.is-open) .side-nav-hint {
+    animation: none;
+    opacity: 0;
+    box-shadow: none;
   }
 
-  #side-nav-panel {
-    transform: translateX(calc(-100% + 8px));
-    pointer-events: none;
-    transition: transform 0.28s ease;
-  }
-
-  #side-nav-panel.is-open {
-    transform: translateX(0);
-
-    pointer-events: auto;
-  }
-
-  #side-nav-panel.is-cueing:not(.is-open) {
-    animation: side-nav-nudge 1.6s ease-in-out 2;
-  }
-
-  @keyframes side-nav-nudge {
-    0% {
-      transform: translateX(calc(-100% + 8px));
-    }
-    35% {
-      transform: translateX(calc(-100% + 16px));
-    }
-    100% {
-      transform: translateX(calc(-100% + 8px));
-    }
+  #side-nav-panel.is-open .side-nav-hint {
+    opacity: 0;
+    animation: none;
+    box-shadow: none;
   }
 
   #side-nav-backdrop {
@@ -80,7 +61,47 @@ const pathname = Astro.url.pathname;
     pointer-events: auto;
   }
 
+  @keyframes side-nav-glow {
+    0%,
+    100% {
+      opacity: 0.14;
+      box-shadow:
+        0 0 6px color-mix(in srgb, var(--color-foreground) 10%, transparent),
+        0 0 14px color-mix(in srgb, var(--color-foreground) 6%, transparent);
+    }
+
+    50% {
+      opacity: 0.34;
+      box-shadow:
+        0 0 10px color-mix(in srgb, var(--color-foreground) 22%, transparent),
+        0 0 24px color-mix(in srgb, var(--color-foreground) 14%, transparent);
+    }
+  }
+
+  @keyframes side-nav-nudge {
+    0% {
+      transform: translateX(calc(-100% + 10px));
+    }
+
+    35% {
+      transform: translateX(calc(-100% + 14px));
+    }
+
+    100% {
+      transform: translateX(calc(-100% + 10px));
+    }
+  }
+
   @media (min-width: 768px) {
+    #side-nav-panel {
+      transform: translateX(calc(-100% + 10px));
+    }
+
+    #side-nav-panel:not(.is-open) .side-nav-hint {
+      animation: side-nav-glow 3.2s ease-in-out infinite;
+      opacity: 0.22;
+    }
+
     #side-nav-backdrop {
       display: none;
     }
@@ -122,6 +143,7 @@ const pathname = Astro.url.pathname;
     aria-label="Primary navigation"
   >
     <div class="side-nav-hint" aria-hidden="true"></div>
+
     <ul class="flex flex-col gap-2">
       {
         navigationLinks.map((item) => {
@@ -134,10 +156,11 @@ const pathname = Astro.url.pathname;
                 rel="noopener noreferrer"
                 class:list={[
                   "block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
+                  // disable pointer events on the active link to prevent unnecessary clicks
                   isActive && "pointer-events-none",
                   isActive
-                    ? "text-foreground border-border/10 bg-foreground/10 border"
-                    : "text-foreground/40 hover:bg-foreground/10 hover:text-foreground",
+                    ? "bg-foreground/10 text-foreground"
+                    : "text-foreground/40 hover:bg-foreground/4 hover:text-foreground",
                 ]}
               >
                 {item.label}
@@ -156,11 +179,14 @@ const pathname = Astro.url.pathname;
   const mobileButton = document.getElementById("side-nav-mobile-button");
   const backdrop = document.getElementById("side-nav-backdrop");
 
-  const desktopQuery = window.matchMedia("(min-width: 768px)");
+  // match media query to determine if we're on desktop or mobile, used to conditionally attach hover events for desktop and click events for mobile
+  const desktopQuery = matchMedia("(min-width: 768px)");
 
+  // timer to manage delayed closing of the nav on desktop, allowing for brief mouseout events without closing the nav immediately
   let closeTimer = null;
 
-  if (panel) {
+  if (panel && desktopQuery.matches) {
+    // cue the nav to hint at its presence and interactivity, but only on desktop where hover interactions are expected, and only if the panel element exists to avoid errors in case of missing elements
     setTimeout(() => {
       panel.classList.add("is-cueing");
 
@@ -178,6 +204,7 @@ const pathname = Astro.url.pathname;
     if (!panel) return;
 
     if (closeTimer) {
+      // if there's an active close timer, clear it to prevent the nav from closing while we're trying to open it
       clearTimeout(closeTimer);
       closeTimer = null;
     }
@@ -191,10 +218,11 @@ const pathname = Astro.url.pathname;
     if (!panel) return;
 
     if (closeTimer) {
+      // if there's already a close timer running, we don't want to start another one, but we do want to reset the existing timer to ensure the nav stays open as long as the user is interacting with it
       clearTimeout(closeTimer);
     }
 
-    closeTimer = window.setTimeout(() => {
+    closeTimer = setTimeout(() => {
       panel.classList.remove("is-open");
       backdrop?.classList.remove("is-open");
       mobileButton?.setAttribute("aria-expanded", "false");
@@ -205,6 +233,7 @@ const pathname = Astro.url.pathname;
     if (!panel) return;
 
     if (closeTimer) {
+      // if there's an active close timer, clear it to prevent the nav from closing immediately after we've just opened it or while we're trying to interact with it
       clearTimeout(closeTimer);
       closeTimer = null;
     }
