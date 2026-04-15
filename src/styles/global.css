@@ -32,6 +32,9 @@
 }
 
 @theme {
+  --color-brand-red: #ff3131;
+  --color-brand-mint: #67fff0;
+
   --font-custom: "SpaceGrotesk", "NotoSansKR", system-ui, sans-serif;
   --font-blog: "UbuntuSans", "NotoSansKR", system-ui, sans-serif;
 

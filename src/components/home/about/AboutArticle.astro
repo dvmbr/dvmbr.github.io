@@ -1,103 +1,145 @@
+---
+import { Image } from "astro:assets";
+import dvmbrFace from "@/assets/images/dvmbr-face.png";
+import { stackCategories } from "@/data/stackIcons";
+import GitHubCalendarIsland from "@/components/ui/GitHubCalendarIsland";
+import { Badge } from "@/components/ui/badge";
+---
+
 <style>
-  .about-copy {
+  .gradient-border-wrapper {
     position: relative;
-    padding-left: 1.25rem;
+    border-radius: 9999px;
+    padding: 4px;
+    overflow: hidden;
   }
 
-  .about-copy::before {
+  /* animated border layer */
+  .gradient-border-animated {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+
+    background: conic-gradient(from 0deg, #ff3131, #67fff0, #ff3131);
+
+    /* 기본은 멈춤 */
+    animation: none;
+
+    /* glow */
+    box-shadow:
+      0 0 12px rgba(255, 49, 49, 0.6),
+      0 0 20px rgba(103, 255, 240, 0.6);
+  }
+
+  .gradient-border-wrapper .gradient-border-animated {
+    animation: rotate-border 4s linear infinite;
+  }
+
+  /* 내부 배경 (border 안쪽 정리) */
+  .gradient-border-wrapper::before {
     content: "";
     position: absolute;
-    top: 0.25rem;
-    left: 0;
-    width: 1px;
-    height: calc(100% - 0.5rem);
-    background: color-mix(in srgb, currentColor 12%, transparent);
-    opacity: 0.6;
+    inset: 4px;
+    background: var(--background);
+    border-radius: 9999px;
+    z-index: 1;
   }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
-
-  .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reveal-delay-1 {
-    transition-delay: 0.05s;
-  }
-
-  .reveal-delay-2 {
-    transition-delay: 0.12s;
-  }
-
-  .reveal-delay-3 {
-    transition-delay: 0.19s;
-  }
-
-  .reveal-delay-4 {
-    transition-delay: 0.26s;
+  @keyframes rotate-border {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
+<div class="typo-content">
+  <section class="flex flex-col items-center gap-10 pt-6 lg:flex-row lg:gap-16">
+    <div class="bg-muted relative w-fit rounded-lg p-8">
+      <div class="gradient-border-wrapper">
+        <div class="gradient-border-animated"></div>
 
-<div class="about-copy space-y-6">
-  <article class="mx-auto max-w-5xl space-y-6">
-    <p class="reveal reveal-delay-1 text-xl!">
-      I am a web developer who enjoys experimenting with ideas and turning them
-      into working structures on the web. Through exploring new approaches and
-      trying different possibilities, I focus on going beyond simple
-      implementation and creating outcomes in my own way.
-    </p>
+        <Image
+          src={dvmbrFace}
+          alt="Dvmbr's face"
+          class="relative z-10 aspect-square w-40 rounded-full object-cover md:w-72"
+        />
+      </div>
+      <div class="mt-4 w-full">
+        <strong class="block text-center text-lg!">DVMBR</strong>
+        <p class="mt-4 text-center text-sm!">Web Developer</p>
+        <p class="text-center text-sm!">Live in South Korea</p>
+      </div>
+    </div>
 
-    <p class="reveal reveal-delay-2 text-xl!">
-      Rather than just building features, I consider user flows and operational
-      contexts to create more stable and maintainable solutions. In live
-      services, I have designed and improved web app interfaces around key flows
-      such as orders and settlements, continuously refining structures while
-      resolving recurring issues.
-    </p>
+    <article class="min-w-0 flex-1">
+      <p class="md:text-lg!">
+        Hi! I'm <strong class="text-brand-mint">Dvmbr</strong>, a web developer
+        who loves dark mode, minimal yet accented design, and exploring anything
+        fun.
+      </p>
 
-    <p class="reveal reveal-delay-3 text-xl!">
-      I have also worked on a variety of projects, including invite-based entry
-      systems, dashboards, and automation tools. Across these, I focus not only
-      on implementation, but on designing the flow and connections between
-      features. Throughout the process, I consistently think about how what I
-      build is actually used and what kind of value it creates.
-    </p>
+      <p class="mt-6 md:text-lg!">
+        In my free time, I enjoy catching up with friends, listening to music,
+        and practicing singing. I also love going for a drive at night or taking
+        a walk by the riverside.
+      </p>
 
-    <p class="reveal reveal-delay-4 text-xl!">
-      I enjoy experimenting and building my own creations, and I aim to ensure
-      that what I create goes beyond a simple result and becomes something
-      genuinely useful to others.
-    </p>
-  </article>
-</div>
+      <p class="mt-6 md:text-lg!">
+        I’ve been working in web development for
+        <strong class="text-brand-mint">over 4 years</strong>, giving me a solid
+        understanding of how the web works.
+      </p>
 
-<script is:inline>
-  function initAboutReveal() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
+      <p class="mt-6 md:text-lg!">
+        I can build a website from
+        <strong class="text-brand-mint">A to Z</strong>. While I'm still
+        improving my design skills, I leverage modern tools to create great
+        visuals. My core strength lies in building
+        <strong class="text-brand-mint">fast</strong>,
+        <strong class="text-brand-mint">accessible</strong>, and
+        <strong class="text-brand-mint">SEO-friendly</strong>
+        websites, as well as handling the <strong class="text-brand-mint"
+          >full deployment process</strong
+        >.
+      </p>
+
+      <p class="mt-6 md:text-lg!">
+        Thank you for reading this! If you’d like to know more or just want to
+        chat, feel free to contact me.
+      </p>
+    </article>
+    <div></div>
+  </section>
+  <section class="container mx-auto px-4 py-16">
+    <div class="mb-10">
+      <h3 class="text-center">My Tech Stack</h3>
+    </div>
+
+    <div class="flex flex-col items-center gap-4">
       {
-        threshold: 0.15,
+        stackCategories.map((c, i) => (
+          <div class="flex flex-wrap justify-center gap-x-6 gap-y-4">
+            {c.icons.map((icon) => (
+              <div class="border-muted flex items-center gap-1 rounded-full border px-4 py-2">
+                <img src={icon.url} alt={icon.alt} class="w-5 md:w-6" />
+                <span class="text-sm md:text-base">{icon.name}</span>
+              </div>
+            ))}
+          </div>
+        ))
       }
-    );
+    </div>
+  </section>
+  <section class="container mx-auto px-4 py-16">
+    <h3 class="mb-6 text-center text-lg font-semibold">Days I Code</h3>
 
-    document.querySelectorAll(".reveal").forEach((element) => {
-      observer.observe(element);
-    });
-  }
-
-  initAboutReveal();
-</script>
+    <div class="flex">
+      <GitHubCalendarIsland
+        client:only="react"
+        username="dvmbr"
+        showWeekdayLabels={true}
+        blockSize={20}
+        className="mx-auto"
+      />
+    </div>
+  </section>
+</div>
