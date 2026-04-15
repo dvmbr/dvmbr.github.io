@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/data/projects";
 
 type Props = {
@@ -30,12 +31,9 @@ export default function ProjectAccordion({ projects }: Props) {
                 <h3>{project.title}</h3>
                 <div className="flex flex-wrap items-center gap-2">
                   {project.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground rounded-full border px-3 py-1 transition-all duration-200 hover:-translate-y-0.5"
-                    >
+                    <Badge key={tech} variant="secondary">
                       {tech}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -45,7 +43,7 @@ export default function ProjectAccordion({ projects }: Props) {
               <p className="mt-4 max-w-2xl">{project.summary}</p>
             </div>
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="pt-4">
             <article className="border-border bg-card typo-content rounded-2xl border p-6 md:p-10">
               <div className="flex flex-col gap-8">
                 {/* Overview */}
