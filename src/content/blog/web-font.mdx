@@ -1,0 +1,159 @@
+---
+title: "Understanding font-family and @font-face"
+description: "How fonts actually work in CSS, from registration to usage."
+pubDate: 2026-04-15
+tags: ["css", "fonts"]
+draft: false
+---
+
+## What is `font-family`?
+
+`font-family` is used to define which font should be applied to an element.
+
+```css
+body {
+  font-family: "UbuntuSans";
+}
+```
+
+At first glance, it looks like this is referencing a font file. But it’s not.
+
+**font-family is just a label, not a file name.**
+
+---
+
+### Then where does the font come from?
+
+That’s where `@font-face` comes in.
+
+```css
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans.woff2") format("woff2");
+}
+```
+
+This means:
+
+- Register the font file
+- Assign it the name "UbuntuSans"
+
+Now `font-family: "UbuntuSans"` can actually work.
+
+---
+
+### How they connect
+
+- `@font-face` → registers the font
+- `font-family` → uses the registered font
+
+---
+
+### Fallback fonts (important)
+
+You should almost always define multiple fonts.
+
+```css
+body {
+  font-family: "UbuntuSans", system-ui, sans-serif;
+}
+```
+
+This means:
+
+1. Try UbuntuSans
+2. If not available → system font
+3. If that fails → generic sans-serif
+
+---
+
+### Generic font families
+
+At the end of the stack, use a generic fallback:
+
+- `serif`
+- `sans-serif`
+- `monospace`
+
+These are guaranteed to exist in the browser.
+
+---
+
+### Variable fonts
+
+This project uses a variable font:
+
+```css
+@font-face {
+  src: url("/fonts/UbuntuSans-VariableFont_wdth,wght.woff2") format("woff2");
+  font-family: "UbuntuSans";
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+---
+
+### `font-weight`
+
+```css
+font-weight: 100 900;
+```
+
+Supports all weights from thin (100) to bold (900).
+
+---
+
+### `font-stretch`
+
+```css
+font-stretch: 75% 125%;
+```
+
+Controls the width of the font:
+
+- 75% → condensed (narrow)
+- 100% → normal
+- 125% → expanded (wide)
+
+---
+
+### `font-display`
+
+```css
+font-display: swap;
+```
+
+Controls loading behavior:
+
+- Show fallback font first
+- Replace it when the custom font loads
+
+This improves perceived performance.
+
+---
+
+### Recommended setup
+
+```css
+@font-face {
+  font-family: "UbuntuSans";
+  src: url("/fonts/UbuntuSans-VariableFont_wdth,wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "UbuntuSans", system-ui, sans-serif;
+}
+```
+
+---
+
+## Key takeaway
+
+**font-family is not the font file — it’s the name you assign to a font and then reuse.**

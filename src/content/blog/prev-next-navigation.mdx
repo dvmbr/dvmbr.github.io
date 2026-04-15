@@ -1,0 +1,156 @@
+---
+title: "How to Add Previous/Next Post Navigation in Astro Blog"
+description: "A practical guide to dynamic blog navigation using Astro content collections."
+pubDate: 2026-04-15
+tags: ["astro", "blog", "navigation"]
+draft: false
+---
+
+## How to Add Previous/Next Post Navigation in Astro Blog
+
+When writing blog posts in MDX, you might want to add links like:
+
+- Previous post
+- Next post
+
+At first, it seems like something you can do directly inside MDX.
+
+But there’s a limitation:
+
+> MDX only knows about the current post.  
+> It does not know about the entire collection.
+
+---
+
+## Why MDX alone is not enough
+
+Inside an MDX file, you can only write static links:
+
+```md
+[Next post](/blog/post-b)
+```
+
+This works, but it’s manual:
+
+- You have to update links yourself
+- It breaks if you rename or reorder posts
+- It doesn’t scale
+
+---
+
+## The correct approach
+
+To create dynamic navigation, you need access to:
+
+- all posts
+- their order
+- the current post’s position
+
+This means the logic belongs in the page template, not in MDX.
+
+---
+
+## Step 1: Sort posts
+
+Sort posts by pubDate so the order is predictable.
+
+```js
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+```
+
+---
+
+## Step 2: Find the current index
+
+```js
+const currentIndex = posts.findIndex((item) => item.id === post.id);
+```
+
+---
+
+## Step 3: Get previous and next posts
+
+```js
+const previousPost =
+  currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+```
+
+---
+
+## Step 4: Render navigation
+
+```astro
+<nav class="mt-12 grid gap-4 border-t pt-6 md:grid-cols-2">
+  <div>
+    {
+      previousPost && (
+        <a href={`/blog/${previousPost.id}`}>
+          <p>Previous post</p>
+          <p>{previousPost.data.title}</p>
+        </a>
+      )
+    }
+  </div>
+
+  <div class="md:text-right">
+    {
+      nextPost && (
+        <a href={`/blog/${nextPost.id}`}>
+          <p>Next post</p>
+          <p>{nextPost.data.title}</p>
+        </a>
+      )
+    }
+  </div>
+</nav>
+```
+
+---
+
+## Naming tip
+
+Depending on your sorting (latest first),
+“previous” and “next” can feel confusing.
+
+A clearer option is:
+
+```js
+const newerPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+const olderPost =
+  currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+```
+
+And label them as:
+
+- Newer post
+- Older post
+
+---
+
+## Key takeaway
+
+MDX is for content.  
+Navigation logic belongs in the page template.
+
+---
+
+## Summary
+
+- MDX can only handle static links
+- Dynamic post navigation requires full collection access
+- Use Astro page templates to compute previous/next posts
+- Always sort posts before calculating navigation
+
+---
+
+## Next
+
+In the next step, you can extend this by adding:
+
+- Tag-based navigation
+- Related posts
+- Table of contents
