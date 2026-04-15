@@ -1,34 +1,244 @@
 ---
 import { navigationLinks } from "@/data/navigationLinks";
+
 const pathname = Astro.url.pathname;
 ---
 
-<style></style>
+<style>
+  .side-nav-hint {
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    width: 3px;
+    height: 42px;
+    border-radius: 999px;
+    transform: translateY(-50%);
+    background: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+    opacity: 0.22;
+    box-shadow:
+      0 0 8px color-mix(in srgb, var(--color-foreground) 16%, transparent),
+      0 0 18px color-mix(in srgb, var(--color-foreground) 10%, transparent);
+    transition:
+      opacity 0.28s ease,
+      box-shadow 0.28s ease;
 
-<aside class="fixed top-1/2 left-0 z-999 -translate-y-1/2 transform">
-  <ul class="flex flex-col gap-2">
-    {
-      navigationLinks.map((item) => {
-        const isActive = pathname === item.href;
+    animation: side-nav-glow 3.2s ease-in-out infinite;
+  }
 
-        return (
-          <li>
-            <a
-              href={item.href}
-              rel="noopener noreferrer"
-              class:list={[
-                "block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
-                isActive && "pointer-events-none",
-                isActive
-                  ? "text-foreground bg-foreground/10 border"
-                  : "text-foreground/40 hover:bg-foreground/10 hover:text-foreground",
-              ]}
-            >
-              {item.label}
-            </a>
-          </li>
-        );
-      })
+  @keyframes side-nav-glow {
+    0%,
+    100% {
+      opacity: 0.14;
+      box-shadow:
+        0 0 6px color-mix(in srgb, var(--color-foreground) 10%, transparent),
+        0 0 14px color-mix(in srgb, var(--color-foreground) 6%, transparent);
     }
-  </ul>
+    50% {
+      opacity: 0.34;
+      box-shadow:
+        0 0 10px color-mix(in srgb, var(--color-foreground) 22%, transparent),
+        0 0 24px color-mix(in srgb, var(--color-foreground) 14%, transparent);
+    }
+  }
+
+  #side-nav-panel {
+    transform: translateX(calc(-100% + 8px));
+    pointer-events: none;
+    transition: transform 0.28s ease;
+  }
+
+  #side-nav-panel.is-open {
+    transform: translateX(0);
+
+    pointer-events: auto;
+  }
+
+  #side-nav-panel.is-cueing:not(.is-open) {
+    animation: side-nav-nudge 1.6s ease-in-out 2;
+  }
+
+  @keyframes side-nav-nudge {
+    0% {
+      transform: translateX(calc(-100% + 8px));
+    }
+    35% {
+      transform: translateX(calc(-100% + 16px));
+    }
+    100% {
+      transform: translateX(calc(-100% + 8px));
+    }
+  }
+
+  #side-nav-backdrop {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+
+  #side-nav-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 768px) {
+    #side-nav-backdrop {
+      display: none;
+    }
+  }
+</style>
+
+<aside class="fixed inset-y-0 left-0 z-999">
+  <!-- desktop edge trigger -->
+  <div
+    id="side-nav-trigger"
+    class="fixed top-0 left-0 hidden h-dvh w-8 md:block"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- mobile open button -->
+  <button
+    id="side-nav-mobile-button"
+    type="button"
+    class="border-border/10 bg-background/50 text-foreground fixed top-4 left-4 z-1001 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur md:hidden"
+    aria-label="Open navigation"
+    aria-expanded="false"
+    aria-controls="side-nav-panel"
+  >
+    ☰
+  </button>
+
+  <!-- mobile backdrop -->
+  <button
+    id="side-nav-backdrop"
+    type="button"
+    class="bg-background/40 fixed inset-0 z-998 md:hidden"
+    aria-label="Close navigation"></button>
+
+  <!-- nav panel -->
+  <nav
+    id="side-nav-panel"
+    class="border-border/50 bg-background/70 fixed top-1/2 left-0 z-1000 h-3/4 w-52 -translate-y-1/2 rounded-r-2xl border px-3 py-4 backdrop-blur-md"
+    aria-label="Primary navigation"
+  >
+    <div class="side-nav-hint" aria-hidden="true"></div>
+    <ul class="flex flex-col gap-2">
+      {
+        navigationLinks.map((item) => {
+          const isActive = pathname === item.href;
+
+          return (
+            <li>
+              <a
+                href={item.href}
+                rel="noopener noreferrer"
+                class:list={[
+                  "block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
+                  isActive && "pointer-events-none",
+                  isActive
+                    ? "text-foreground border-border/10 bg-foreground/10 border"
+                    : "text-foreground/40 hover:bg-foreground/10 hover:text-foreground",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
 </aside>
+
+<script is:inline>
+  const panel = document.getElementById("side-nav-panel");
+  const navTrigger = document.getElementById("side-nav-trigger");
+  const mobileButton = document.getElementById("side-nav-mobile-button");
+  const backdrop = document.getElementById("side-nav-backdrop");
+
+  const desktopQuery = window.matchMedia("(min-width: 768px)");
+
+  let closeTimer = null;
+
+  if (panel) {
+    setTimeout(() => {
+      panel.classList.add("is-cueing");
+
+      panel.addEventListener(
+        "animationend",
+        () => {
+          panel.classList.remove("is-cueing");
+        },
+        { once: true }
+      );
+    }, 1200);
+  }
+
+  const openNav = () => {
+    if (!panel) return;
+
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+
+    panel.classList.add("is-open");
+    backdrop?.classList.add("is-open");
+    mobileButton?.setAttribute("aria-expanded", "true");
+  };
+
+  const closeNav = () => {
+    if (!panel) return;
+
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+    }
+
+    closeTimer = window.setTimeout(() => {
+      panel.classList.remove("is-open");
+      backdrop?.classList.remove("is-open");
+      mobileButton?.setAttribute("aria-expanded", "false");
+    }, 100);
+  };
+
+  const closeNavImmediately = () => {
+    if (!panel) return;
+
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+
+    panel.classList.remove("is-open");
+    backdrop?.classList.remove("is-open");
+    mobileButton?.setAttribute("aria-expanded", "false");
+  };
+
+  if (desktopQuery.matches) {
+    navTrigger?.addEventListener("mouseenter", openNav);
+    navTrigger?.addEventListener("mouseleave", closeNav);
+
+    panel?.addEventListener("mouseenter", openNav);
+    panel?.addEventListener("mouseleave", closeNav);
+  }
+
+  mobileButton?.addEventListener("click", () => {
+    if (panel?.classList.contains("is-open")) {
+      closeNavImmediately();
+      return;
+    }
+
+    openNav();
+  });
+
+  backdrop?.addEventListener("click", closeNavImmediately);
+
+  window.addEventListener("resize", () => {
+    if (desktopQuery.matches) {
+      backdrop?.classList.remove("is-open");
+      mobileButton?.setAttribute("aria-expanded", "false");
+    } else {
+      closeNavImmediately();
+    }
+  });
+</script>

@@ -143,7 +143,7 @@ import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
 </RootLayout>
 
 <script is:inline>
-  const trigger = document.getElementById("scroll-up-trigger");
+  const scrollUpTrigger = document.getElementById("scroll-up-trigger");
   const floating = document.getElementById("scroll-up-float");
 
   if (floating) {
@@ -152,7 +152,7 @@ import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
     });
   }
 
-  if (trigger && floating) {
+  if (scrollUpTrigger && floating) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -166,6 +166,6 @@ import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
       }
     );
 
-    observer.observe(trigger);
+    observer.observe(scrollUpTrigger);
   }
 </script>
