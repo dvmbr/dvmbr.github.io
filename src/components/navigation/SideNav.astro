@@ -174,100 +174,104 @@ const pathname = Astro.url.pathname;
 </aside>
 
 <script is:inline>
-  const panel = document.getElementById("side-nav-panel");
-  const navTrigger = document.getElementById("side-nav-trigger");
-  const mobileButton = document.getElementById("side-nav-mobile-button");
-  const backdrop = document.getElementById("side-nav-backdrop");
+  function initSideNav() {
+    const panel = document.getElementById("side-nav-panel");
+    const trigger = document.getElementById("side-nav-trigger");
+    const mobileButton = document.getElementById("side-nav-mobile-button");
+    const backdrop = document.getElementById("side-nav-backdrop");
 
-  // match media query to determine if we're on desktop or mobile, used to conditionally attach hover events for desktop and click events for mobile
-  const desktopQuery = matchMedia("(min-width: 768px)");
+    // match media query to determine if we're on desktop or mobile, used to conditionally attach hover events for desktop and click events for mobile
+    const desktopQuery = matchMedia("(min-width: 768px)");
 
-  // timer to manage delayed closing of the nav on desktop, allowing for brief mouseout events without closing the nav immediately
-  let closeTimer = null;
+    // timer to manage delayed closing of the nav on desktop, allowing for brief mouseout events without closing the nav immediately
+    let closeTimer = null;
 
-  if (panel && desktopQuery.matches) {
-    // cue the nav to hint at its presence and interactivity, but only on desktop where hover interactions are expected, and only if the panel element exists to avoid errors in case of missing elements
-    setTimeout(() => {
-      panel.classList.add("is-cueing");
+    if (panel && desktopQuery.matches) {
+      // cue the nav to hint at its presence and interactivity, but only on desktop where hover interactions are expected, and only if the panel element exists to avoid errors in case of missing elements
+      setTimeout(() => {
+        panel.classList.add("is-cueing");
 
-      panel.addEventListener(
-        "animationend",
-        () => {
-          panel.classList.remove("is-cueing");
-        },
-        { once: true }
-      );
-    }, 1200);
-  }
-
-  const openNav = () => {
-    if (!panel) return;
-
-    if (closeTimer) {
-      // if there's an active close timer, clear it to prevent the nav from closing while we're trying to open it
-      clearTimeout(closeTimer);
-      closeTimer = null;
+        panel.addEventListener(
+          "animationend",
+          () => {
+            panel.classList.remove("is-cueing");
+          },
+          { once: true }
+        );
+      }, 1200);
     }
 
-    panel.classList.add("is-open");
-    backdrop?.classList.add("is-open");
-    mobileButton?.setAttribute("aria-expanded", "true");
-  };
+    const openNav = () => {
+      if (!panel) return;
 
-  const closeNav = () => {
-    if (!panel) return;
+      if (closeTimer) {
+        // if there's an active close timer, clear it to prevent the nav from closing while we're trying to open it
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
 
-    if (closeTimer) {
-      // if there's already a close timer running, we don't want to start another one, but we do want to reset the existing timer to ensure the nav stays open as long as the user is interacting with it
-      clearTimeout(closeTimer);
-    }
+      panel.classList.add("is-open");
+      backdrop?.classList.add("is-open");
+      mobileButton?.setAttribute("aria-expanded", "true");
+    };
 
-    closeTimer = setTimeout(() => {
+    const closeNav = () => {
+      if (!panel) return;
+
+      if (closeTimer) {
+        // if there's already a close timer running, we don't want to start another one, but we do want to reset the existing timer to ensure the nav stays open as long as the user is interacting with it
+        clearTimeout(closeTimer);
+      }
+
+      closeTimer = setTimeout(() => {
+        panel.classList.remove("is-open");
+        backdrop?.classList.remove("is-open");
+        mobileButton?.setAttribute("aria-expanded", "false");
+      }, 100);
+    };
+
+    const closeNavImmediately = () => {
+      if (!panel) return;
+
+      if (closeTimer) {
+        // if there's an active close timer, clear it to prevent the nav from closing immediately after we've just opened it or while we're trying to interact with it
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+
       panel.classList.remove("is-open");
       backdrop?.classList.remove("is-open");
       mobileButton?.setAttribute("aria-expanded", "false");
-    }, 100);
-  };
+    };
 
-  const closeNavImmediately = () => {
-    if (!panel) return;
+    if (desktopQuery.matches) {
+      trigger?.addEventListener("mouseenter", openNav);
+      trigger?.addEventListener("mouseleave", closeNav);
 
-    if (closeTimer) {
-      // if there's an active close timer, clear it to prevent the nav from closing immediately after we've just opened it or while we're trying to interact with it
-      clearTimeout(closeTimer);
-      closeTimer = null;
+      panel?.addEventListener("mouseenter", openNav);
+      panel?.addEventListener("mouseleave", closeNav);
     }
 
-    panel.classList.remove("is-open");
-    backdrop?.classList.remove("is-open");
-    mobileButton?.setAttribute("aria-expanded", "false");
-  };
+    mobileButton?.addEventListener("click", () => {
+      if (panel?.classList.contains("is-open")) {
+        closeNavImmediately();
+        return;
+      }
 
-  if (desktopQuery.matches) {
-    navTrigger?.addEventListener("mouseenter", openNav);
-    navTrigger?.addEventListener("mouseleave", closeNav);
+      openNav();
+    });
 
-    panel?.addEventListener("mouseenter", openNav);
-    panel?.addEventListener("mouseleave", closeNav);
+    backdrop?.addEventListener("click", closeNavImmediately);
+
+    window.addEventListener("resize", () => {
+      if (desktopQuery.matches) {
+        backdrop?.classList.remove("is-open");
+        mobileButton?.setAttribute("aria-expanded", "false");
+      } else {
+        closeNavImmediately();
+      }
+    });
   }
 
-  mobileButton?.addEventListener("click", () => {
-    if (panel?.classList.contains("is-open")) {
-      closeNavImmediately();
-      return;
-    }
-
-    openNav();
-  });
-
-  backdrop?.addEventListener("click", closeNavImmediately);
-
-  window.addEventListener("resize", () => {
-    if (desktopQuery.matches) {
-      backdrop?.classList.remove("is-open");
-      mobileButton?.setAttribute("aria-expanded", "false");
-    } else {
-      closeNavImmediately();
-    }
-  });
+  initSideNav();
 </script>

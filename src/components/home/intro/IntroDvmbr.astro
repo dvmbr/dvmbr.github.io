@@ -87,38 +87,42 @@
 </div>
 
 <script is:inline>
-  const introWrapper = document.getElementById("intro-wrapper");
-  const INTRO_KEY = "dvmbr_intro_seen";
-  const LIMIT = 24 * 60 * 60 * 1000; // 24시간
-  const lastSeen = sessionStorage.getItem(INTRO_KEY);
-  const now = Date.now();
-  let shouldShowIntro = true;
+  function initIntro() {
+    const introWrapper = document.getElementById("intro-wrapper");
+    const INTRO_KEY = "dvmbr_intro_seen";
+    const LIMIT = 24 * 60 * 60 * 1000; // 24시간
+    const lastSeen = sessionStorage.getItem(INTRO_KEY);
+    const now = Date.now();
+    let shouldShowIntro = true;
 
-  if (lastSeen) {
-    const diff = now - Number(lastSeen);
+    if (lastSeen) {
+      const diff = now - Number(lastSeen);
 
-    if (diff < LIMIT) {
-      shouldShowIntro = false;
+      if (diff < LIMIT) {
+        shouldShowIntro = false;
+      }
     }
-  }
 
-  if (!shouldShowIntro) {
-    introWrapper.classList.add("hidden");
-  } else {
-    sessionStorage.setItem(INTRO_KEY, now.toString());
-  }
+    if (!shouldShowIntro) {
+      introWrapper.classList.add("hidden");
+    } else {
+      sessionStorage.setItem(INTRO_KEY, now.toString());
+    }
 
-  const intro = document.getElementById("intro");
+    const intro = document.getElementById("intro");
 
-  // prevent scrolling during intro animation
-  document.body.style.overflow = "hidden";
-
-  setTimeout(() => {
-    intro.classList.add("hide");
-    document.body.style.overflow = "";
+    // prevent scrolling during intro animation
+    document.body.style.overflow = "hidden";
 
     setTimeout(() => {
-      intro.style.display = "none";
-    }, 600);
-  }, 1300);
+      intro.classList.add("hide");
+      document.body.style.overflow = "";
+
+      setTimeout(() => {
+        intro.style.display = "none";
+      }, 600);
+    }, 1300);
+  }
+
+  initIntro();
 </script>

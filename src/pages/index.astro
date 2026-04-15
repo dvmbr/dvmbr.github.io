@@ -30,7 +30,6 @@ import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
     align-items: center;
     justify-content: center;
 
-    background: var(--background);
     color: var(--muted-foreground);
 
     opacity: 0;
@@ -143,29 +142,34 @@ import IntroDvmbr from "@/components/home/intro/IntroDvmbr.astro";
 </RootLayout>
 
 <script is:inline>
-  const scrollUpTrigger = document.getElementById("scroll-up-trigger");
-  const floating = document.getElementById("scroll-up-float");
+  function initScrollUpFloat() {
+    const trigger = document.getElementById("scroll-up-trigger");
+    const floating = document.getElementById("scroll-up-float");
 
-  if (floating) {
-    floating.addEventListener("click", () => {
-      scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
+    if (floating) {
+      floating.addEventListener("click", () => {
+        floating.classList.remove("is-visible"); // ensure the floating button is hidden on page load until the observer triggers it to show, preventing it from appearing briefly before the observer initializes
+        scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
 
-  if (scrollUpTrigger && floating) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          floating.classList.remove("is-visible");
-        } else {
-          floating.classList.add("is-visible");
+    if (trigger && floating) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            floating.classList.remove("is-visible");
+          } else {
+            floating.classList.add("is-visible");
+          }
+        },
+        {
+          threshold: 0,
         }
-      },
-      {
-        threshold: 0,
-      }
-    );
+      );
 
-    observer.observe(scrollUpTrigger);
+      observer.observe(trigger);
+    }
   }
+
+  initScrollUpFloat();
 </script>
