@@ -73,10 +73,10 @@ const currentIndex = posts.findIndex((item) => item.id === post.id);
 ## Step 3: Get previous and next posts
 
 ```js
-const previousPost =
+const nextPost =
   currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
 
-const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+const previousPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
 ```
 
 ---

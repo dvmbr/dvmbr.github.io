@@ -1,0 +1,31 @@
+---
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
+
+export interface BlogBreadcrumbProps {
+  current: string;
+}
+
+const { current } = Astro.props as BlogBreadcrumbProps;
+---
+
+<Breadcrumb client:load>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/blog" className="hover:text-brand-mint">
+        Blog
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink className="hover:text-current">
+        {current}
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>

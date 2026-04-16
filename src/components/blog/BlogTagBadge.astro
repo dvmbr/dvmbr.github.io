@@ -1,0 +1,14 @@
+---
+import { Badge } from "@/components/ui/badge";
+
+export interface BlogTagBadgeProps {
+  tag: string;
+  variant?: "outline" | "secondary" | "default";
+}
+
+const { tag, variant = "secondary" } = Astro.props as BlogTagBadgeProps;
+---
+
+<Badge client:load variant={variant}>
+  # {tag}
+</Badge>
