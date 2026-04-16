@@ -34,7 +34,11 @@ export default function ProjectAccordion({ projects }: Props) {
                   <h3>{project.title}</h3>
                   <div className="flex flex-wrap items-center gap-2">
                     {project.stack.map((tech) => (
-                      <Badge key={tech} variant="secondary">
+                      <Badge
+                        key={tech}
+                        variant="secondary"
+                        className="tracking-normal"
+                      >
                         {tech}
                       </Badge>
                     ))}
