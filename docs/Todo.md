@@ -10,4 +10,4 @@
 - refactor: apply brand colors for improved appearance
   - apply to blog page
 - refactor: change mobile menu icon
-- fix: mistyped in about section 
+- fix: mistyped in about section

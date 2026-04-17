@@ -14,229 +14,244 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "project-1",
-    title: "Invite Benefit & Chat Service",
-    stack: ["TypeScript", "React", "Redux", "CSS Modules"],
+    title: "dvmbr.github.io (Side Project)",
+    stack: ["Astro", "TypeScript", "React", "Tailwind CSS", "MDX"],
     summary:
-      "A web-based invite flow designed to connect user acquisition, benefit distribution, and chat entry through shared links and parameter-based routing.",
-    duration: "2025.09 - 2025.12",
+      "Personal portfolio website built with Astro, optimized for static content and maintainability.",
+    duration: "2026.04 - Present",
     overview:
-      "This project focused on building an invite-based entry structure shared through external channels. It was designed to identify where users came from, guide them through sign-up and chat access based on their state, and connect the flow to invite benefits in a maintainable way.",
+      "Designed and developed a personal portfolio website using Astro, focusing on content-centric structure and static page optimization.",
     problem:
-      "Users entering through external invite links needed a clear and structured flow that could distinguish inflow paths, handle different user states, and connect them to the right next action.",
+      "Needed a maintainable, content-driven static site with consistent UI and automated deployment.",
     solution:
-      "Designed a parameter-based invite structure using invite codes and routing logic. Built a user-state-driven flow that connected entry, sign-up, benefit handling, and chat access into one consistent experience.",
+      "Built a design token-based UI system with Tailwind CSS, integrated MDX for content-component composition, structured UI with reusable components, and automated CI/CD with GitHub Actions and GitHub Pages.",
     impact:
-      "Made the invite flow easier to manage and extend, while reducing maintenance cost through shared configuration and clearer structural organization.",
+      "Achieved a scalable, maintainable portfolio site with automated deployment and enhanced user experience.",
     contributions: [
-      "Designed an inflow structure based on invite links shared through external channels.",
-      "Implemented route identification logic using invite codes and parameters.",
-      "Structured sign-up and chat connection flows based on user state.",
-      "Connected inflow user data to benefit handling logic.",
-      "Reduced maintenance cost by organizing shared settings and common structure.",
+      "Designed content-centric structure and static page optimization with Astro",
+      "Built a consistent UI system using Tailwind CSS design tokens",
+      "Integrated MDX for unified content and component management",
+      "Structured UI with reusable, maintainable components",
+      "Automated CI/CD pipeline and deployment with GitHub Actions and Pages",
+      "Implemented interactive elements to enhance user experience",
     ],
   },
   {
     id: "project-2",
-    title: "Redash Data Dashboard Operations",
-    stack: ["Redash", "Amazon RDS"],
+    title: "Ui-interaction-showcase (Side Project)",
+    stack: ["Vue.js", "TypeScript", "Tailwind CSS"],
     summary:
-      "Designed and maintained operational dashboards for service metrics, user behavior, and recurring reporting workflows.",
-    duration: "2024.04 - 2025.12",
+      "Showcase of state-driven UI interaction patterns and reusable components.",
+    duration: "2026.01 - Present",
     overview:
-      "This project focused on defining service metrics and turning recurring reporting work into reusable dashboards. It supported operational visibility by organizing purchasing, payment, and user behavior data into accessible views.",
+      "Designed state-based UI interaction structures to clearly express various UI states (default/loading/success/error).",
     problem:
-      "Operational reporting relied on repeated manual work, and non-technical stakeholders needed easier access to meaningful service metrics.",
+      "Needed predictable UI flows, clear user feedback for each state, and scalable, reusable component structure.",
     solution:
-      "Built Redash dashboards with SQL-based queries for monthly metrics, repurchase rate, loyal user analysis, and parameterized views that could be reused across teams.",
+      "Used props/events patterns, modularized UI patterns (toast, modal, tab), and automated deployment with Netlify.",
     impact:
-      "Improved operational efficiency by replacing repetitive reporting with dashboards and increased usability for non-technical roles through parameter-based exploration.",
+      "Established a scalable, consistent UI interaction structure with automated deployment and continuous updates.",
     contributions: [
-      "Built Redash dashboards for operational service metrics.",
-      "Wrote SQL queries based on purchasing, payment, and user behavior data.",
-      "Designed dashboards for monthly KPIs, repurchase rate, and loyal user analysis.",
-      "Created parameter-based dashboards for easier use by non-technical teams.",
-      "Reduced repeated reporting work by converting it into reusable dashboards.",
+      "Designed and implemented state-driven UI interaction structures",
+      "Separated loading/success/error states for clear user feedback",
+      "Used props/events for explicit state flow",
+      "Modularized UI patterns like toast, modal, tab",
+      "Automated deployment and continuous updates with Netlify",
     ],
   },
   {
     id: "project-3",
-    title: "fisher App Operations Service",
-    stack: ["TypeScript", "React", "Redux", "TailwindCSS"],
+    title: "dvmbr-chat (Side Project)",
+    stack: [
+      "TypeScript",
+      "Next.js",
+      "Prisma",
+      "Tailwind CSS",
+      "PostgreSQL",
+      "WebSocket",
+    ],
     summary:
-      "Designed and improved operational web app interfaces for a live service, covering user flows such as orders and settlements.",
-    duration: "2024.12 - 2025.07",
+      "Real-time chat application with hybrid SSR/CSR rendering and automated deployment.",
+    duration: "2026.01 - 2026.02",
     overview:
-      "This project covered the overall design and improvement of web app interfaces used in a live operational service. It focused on building practical flows around real user and business operations while continuously refining structure for long-term maintenance.",
+      "Designed a real-time messaging structure using WebSocket and implemented client-server data flow. Built API routes and DB integration with Next.js and Prisma.",
     problem:
-      "A live service required stable and adaptable operational interfaces that could support changing needs, user flows, and ongoing issue resolution.",
+      "Needed real-time messaging, hybrid SSR/CSR rendering, DB integration, and automated deployment.",
     solution:
-      "Designed and improved web app interfaces around operational workflows such as orders and settlements, while continuously refactoring and restructuring for maintainability.",
+      "WebSocket-based real-time structure, Next.js API routes, Prisma data modeling, and automated deployment with Vercel, Railway, and Neon.",
     impact:
-      "Supported ongoing operations with more reliable interfaces and a cleaner structure that was easier to maintain over time.",
+      "Achieved real-time, scalable chat with automated deployment and efficient operations.",
     contributions: [
-      "Handled the overall web app interface for a live operational service.",
-      "Designed interfaces and features based on user flows such as orders and settlements.",
-      "Repeatedly responded to operational issues and improved existing functionality.",
-      "Refactored and reorganized the structure with long-term maintenance in mind.",
+      "Designed real-time messaging structure with WebSocket",
+      "Implemented API routes and DB integration with Next.js and Prisma",
+      "Hybrid SSR/CSR rendering for initial and live updates",
+      "File-based routing and separated async/error UI/UX",
+      "Data modeling and DB access with Prisma",
+      "Automated deployment with Vercel, Railway, and Neon",
     ],
   },
   {
     id: "project-4",
-    title: "Customer Consultation Redirect Service",
-    stack: ["TypeScript"],
-    summary:
-      "Built a redirect service to connect users to an external consultation platform despite fixed in-app URL constraints.",
-    duration: "2024.12",
+    title: "Invite Benefit & Chat Service",
+    stack: ["TypeScript", "Next.js", "TailwindCSS"],
+    summary: "Invite link-based user acquisition and chat connection flow.",
+    duration: "2025.09 - 2025.12",
     overview:
-      "This project focused on bridging an app environment with an external consultation service. It solved the limitation of fixed in-app URLs by rebuilding consultation entry links dynamically based on API-fetched information.",
+      "Designed user inflow identification and chat connection flow using invite link parameters.",
     problem:
-      "The app environment had fixed URL constraints, which made it difficult to connect users dynamically to the correct external consultation room.",
+      "Needed consistent user flow based on URL parameters, user state branching, and stable chat connection.",
     solution:
-      "Built an intermediate redirect service that fetched user and group information, reconstructed dynamic consultation URLs, and connected users to the correct chat room in the external service.",
+      "Used Next.js API routes, SSR/CSR, and Middleware for inflow handling and user flow control.",
     impact:
-      "Stabilized the consultation access flow in an environment with platform constraints and made the external integration more manageable.",
+      "Provided consistent user experience and stable service flow for each inflow path.",
     contributions: [
-      "Built an intermediate redirect service for Happytalk integration.",
-      "Reconstructed consultation URLs dynamically to bypass fixed in-app URL limitations.",
-      "Fetched user and group information before connecting users to consultation chat rooms.",
-      "Organized external service access information and related configuration.",
-      "Improved consultation flow stability under operational constraints.",
+      "Implemented user inflow identification logic using invite link parameters",
+      "Designed URL-based inflow handling and state branching",
+      "Designed flow from sign-up to chat connection for members/non-members",
+      "Built chat service communication with Next.js API routes",
+      "Optimized rendering and flow control with SSR/CSR and Middleware",
     ],
   },
   {
     id: "project-5",
-    title: "Waybill Registration Automation Tool",
-    stack: ["TypeScript", "TailwindCSS"],
-    summary:
-      "Designed an internal tool to automate a manual waybill registration workflow using upload-based matching and OCR-assisted input.",
-    duration: "2024.09 - 2024.11",
+    title: "Fisher App (Production Service)",
+    stack: ["TypeScript", "React", "TailwindCSS"],
+    summary: "Maintenance and improvement of app/web UI and user flows.",
+    duration: "2024.12 - 2025.07",
     overview:
-      "This project analyzed a repetitive manual registration process and redesigned it into a partial automation workflow. It focused on matching order data with uploaded waybill information and reducing manual entry effort.",
+      "Maintained and improved overall app/web UI and user flow-based screen structure.",
     problem:
-      "Waybill registration was handled manually, which caused repeated input work, matching errors, and unnecessary processing time.",
+      "Needed to address operational issues, remove redundant logic, and improve long-term maintainability.",
     solution:
-      "Designed an automated matching flow between orders and waybill data, built a bulk registration interface based on Excel uploads, and introduced OCR-assisted input for image-based waybill recognition.",
+      "Refactored structure, improved React components, and applied TailwindCSS design system.",
     impact:
-      "Reduced input errors and improved processing time by partially automating a previously manual workflow.",
+      "Improved operational efficiency, code readability, and scalability.",
     contributions: [
-      "Analyzed and redesigned the manual waybill registration process.",
-      "Designed an automatic matching flow between order lists and waybill data.",
-      "Built a bulk registration interface using Excel uploads.",
-      "Introduced OCR-linked input flow for image-based waybill recognition.",
-      "Reduced processing errors and saved time through partial automation.",
+      "Maintained and improved overall app/web UI",
+      "Analyzed and improved UI/functionality for order/settlement flows",
+      "Addressed operational issues with root cause analysis and structural improvements",
+      "Removed redundant logic and refactored structure",
+      "Improved React component structure and applied TailwindCSS design system",
     ],
   },
   {
     id: "project-6",
-    title: "D-meta Corporate Website",
-    stack: ["TypeScript", "React", "Bootstrap"],
-    summary:
-      "Built a company introduction website with semantic HTML, structured layouts, and consistent UI components.",
-    duration: "2023.02 - 2023.05",
+    title: "Customer Consultation Redirect Service",
+    stack: ["TypeScript"],
+    summary: "Redirect layer for external consultation service integration.",
+    duration: "2024.12",
     overview:
-      "This project focused on developing a company website using React and TypeScript. It emphasized clear layout composition, reusable components, and semantic structure for better discoverability.",
+      "Designed and implemented a redirect layer for external consultation service integration.",
     problem:
-      "The site needed a structured and consistent web presence that could communicate company information clearly while remaining maintainable.",
+      "Needed to overcome fixed URL constraints, generate dynamic consultation URLs, and ensure stable consultation entry flow.",
     solution:
-      "Built the website with React and TypeScript, used semantic HTML for SEO, and organized the layout and components with Bootstrap.",
+      "Generated dynamic consultation URLs, connected users to chat rooms based on user/group info, and organized integration/auth structures.",
     impact:
-      "Delivered a consistent corporate website with improved semantic structure and maintainable UI composition.",
+      "Stabilized consultation entry flow within app environment constraints.",
     contributions: [
-      "Developed the company introduction website with TypeScript and React.",
-      "Applied semantic HTML tags to improve SEO.",
-      "Built consistent layouts and components using Bootstrap.",
+      "Designed and implemented redirect layer for external consultation integration",
+      "Generated dynamic consultation URLs",
+      "Connected users to chat rooms based on user/group info",
+      "Organized integration/auth structures",
+      "Stabilized consultation entry flow considering app constraints",
     ],
   },
   {
     id: "project-7",
-    title: "Smartsensor Dashboard",
-    stack: [
-      "TypeScript",
-      "React",
-      "Tailwind CSS",
-      "Chart.js",
-      "Spring Boot",
-      "Netty",
-      "MySQL",
-    ],
-    summary:
-      "Built a real-time dashboard with device communication, WebSocket updates, and data visualization for sensor-based systems.",
-    duration: "2022.02 - 2023.02",
+    title: "Waybill Registration Automation Tool",
+    stack: ["TypeScript", "React", "Bootstrap"],
+    summary: "Automated waybill registration process and bulk data handling.",
+    duration: "2024.09 - 2024.11",
     overview:
-      "This project combined server-side communication and front-end dashboard development for sensor data systems. It included socket communication, real-time updates, and chart-based visualization.",
+      "Redesigned manual waybill registration process for automation and bulk data handling.",
     problem:
-      "The system needed reliable communication with transmission devices and a dashboard capable of showing continuously updated data in a usable way.",
+      "Needed to reduce repetitive input, matching errors, and improve bulk data handling and input accuracy.",
     solution:
-      "Implemented socket communication with Netty, added WebSocket-based real-time updates, and introduced Chart.js to build the graph UI more efficiently.",
-    impact:
-      "Enabled real-time dashboard updates, improved maintainability of graph rendering, and reduced chart-related implementation complexity.",
+      "Implemented Excel upload for bulk processing, image upload→data extraction→auto registration flow.",
+    impact: "Reduced input errors and shortened processing time.",
     contributions: [
-      "Implemented server socket communication for data transmission devices using Netty.",
-      "Built real-time update functionality with WebSocket communication.",
-      "Introduced Chart.js and reduced graph UI code volume significantly.",
-      "Applied semantic HTML tags to improve SEO.",
+      "Redesigned manual waybill registration for automation",
+      "Implemented auto-matching and validation logic for orders/waybills",
+      "Built bulk data handling with Excel upload",
+      "Designed image upload→data extraction→auto registration flow",
+      "Reduced input errors and processing time",
     ],
   },
   {
     id: "project-8",
-    title: "Ssocio Living Community App",
-    stack: ["JavaScript", "HTML", "CSS", "AWS"],
-    summary:
-      "Maintained and developed web pages for a community app, including server-driven data display and chart-based visualization.",
-    duration: "2021.10 - 2022.02",
+    title: "Redash Data Dashboard Operations",
+    stack: ["SQL"],
+    summary: "Designed and operated Redash-based data dashboards.",
+    duration: "2024.04 - 2025.12",
     overview:
-      "This project involved maintaining and improving community app web pages while handling server data display. It also included chart-based visual output for data presentation.",
+      "Designed and operated Redash-based data dashboards for business metrics and reporting automation.",
     problem:
-      "The app needed stable web page maintenance and clearer ways to present data from the server.",
+      "Needed to automate repetitive reports and improve data accessibility for non-developers.",
     solution:
-      "Built and maintained web pages while implementing data visualization with Chart.js to improve readability.",
-    impact:
-      "Improved the usability of server-driven data presentation within the community app.",
+      "Built parameterized dashboards, defined key metrics, and automated SQL queries.",
+    impact: "Improved operational efficiency and data utilization.",
     contributions: [
-      "Maintained and developed web pages for the community app.",
-      "Handled server data display on the web interface.",
-      "Implemented data visualization using Chart.js.",
+      "Designed and operated Redash-based data dashboards",
+      "Defined key metrics and wrote SQL queries for purchase/payment/user behavior data",
+      "Established business metric system and automated recurring reports",
+      "Improved data accessibility with parameterized dashboards",
     ],
   },
   {
     id: "project-9",
-    title: "Peoplecar Damage Detection Website",
-    stack: ["jQuery", "HTML", "CSS", "Canvas API", "Python", "MySQL"],
-    summary:
-      "Built a web interface for visualizing vehicle damage and license plate recognition positions using Canvas-based rendering.",
-    duration: "2021.04 - 2021.10",
+    title: "Smart Sensor Dashboard Page Development",
+    stack: ["TypeScript", "React", "Chart.js", "WebSocket", "Spring", "Netty"],
+    summary: "Real-time sensor data reception and visualization dashboard.",
+    duration: "2022.02 - 2023.02",
     overview:
-      "This project focused on building a web interface that displayed server data and visualized damage-related detection areas. It required browser compatibility considerations and efficient rendering of recognition results.",
+      "Designed Netty-based socket server communication, WebSocket real-time streaming, and Chart.js visualization UI.",
     problem:
-      "The product needed a way to visually represent vehicle damage and recognition coordinates clearly across browsers.",
+      "Needed real-time data flow, state monitoring, and efficient visualization.",
     solution:
-      "Used the Canvas API to render damage and license plate recognition positions, and adopted jQuery to improve cross-browser support and implementation speed.",
-    impact:
-      "Delivered a clearer visualization flow for detection results while improving compatibility and development efficiency.",
+      "Implemented Netty server communication, WebSocket streaming, and Chart.js-based visualization UI.",
+    impact: "Improved real-time data monitoring and visualization efficiency.",
     contributions: [
-      "Visualized vehicle damage and license plate recognition positions with the Canvas API.",
-      "Improved cross-browser compatibility and development speed using jQuery.",
-      "Built web pages and displayed server-side data in the interface.",
+      "Designed and implemented Netty-based sensor data server communication",
+      "Built real-time data streaming with WebSocket",
+      "Implemented data visualization UI with Chart.js",
     ],
   },
   {
     id: "project-10",
-    title: "Jeil Steel Admin Website",
-    stack: ["SpringBoot", "MySQL", "JavaScript"],
+    title: "Vehicle Damage Detection Webpage Development",
+    stack: ["JavaScript", "jQuery", "Python", "Canvas API"],
     summary:
-      "Developed an admin website connected to a RESTful API server for data lookup and management workflows.",
+      "Webpage for visualizing vehicle damage and license plate recognition results.",
+    duration: "2021.04 - 2021.10",
+    overview:
+      "Developed overlay visualization for detection areas using Canvas API and reflected Python server data in UI.",
+    problem:
+      "Needed browser compatibility and efficient visualization of detection results.",
+    solution:
+      "Visualized detection areas with Canvas API and improved DOM handling with jQuery.",
+    impact: "Improved visualization flow and development efficiency.",
+    contributions: [
+      "Developed visualization for vehicle damage/license plate detection with Canvas API",
+      "Reflected Python server data in UI",
+      "Improved DOM handling efficiency with jQuery",
+    ],
+  },
+  {
+    id: "project-11",
+    title: "Admin Webpage Development",
+    stack: ["JavaScript", "Java", "Spring", "MySQL"],
+    summary: "Admin webpage based on RESTful API.",
     duration: "2020.11 - 2021.04",
     overview:
-      "This project focused on building an admin-facing website connected to a RESTful backend. It supported data retrieval and screen rendering for operational use.",
-    problem:
-      "The service needed an admin interface that could communicate with backend APIs and present operational data clearly.",
+      "Developed admin UI and CRUD features based on SpringBoot and MySQL.",
+    problem: "Needed operational data management and admin UI.",
     solution:
-      "Built an admin website connected to a RESTful API server and implemented server data lookup and rendering functionality.",
-    impact:
-      "Provided an operational admin interface for managing and viewing backend-driven data.",
+      "Integrated RESTful API, processed server data, and reflected it in admin UI.",
+    impact: "Improved operational efficiency and data management.",
     contributions: [
-      "Developed an admin website connected to a RESTful API server.",
-      "Implemented server data retrieval and screen rendering features.",
+      "Developed admin webpage based on RESTful API",
+      "Implemented CRUD features with SpringBoot and MySQL",
+      "Processed server data and reflected it in admin UI",
     ],
   },
 ];
