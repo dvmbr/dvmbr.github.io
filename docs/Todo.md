@@ -8,3 +8,6 @@
   - add progress indicators for loading states
   - add back link to blog page
 - refactor: apply brand colors for improved appearance
+  - apply to blog page
+- refactor: change mobile menu icon
+- fix: mistyped in about section
