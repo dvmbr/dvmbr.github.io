@@ -1,0 +1,197 @@
+---
+title: dvmbr-intro, npm package publish
+description: A quick intro to my dvmbr-intro web component—how and why I built it, and how to use it anywhere.
+pubDate: 2026-04-19
+tags: [web-component, npm]
+draft: false
+---
+
+Building a Lightweight Intro Splash Web Component
+
+Sometimes, you just want a clean, modern intro splash.
+
+Not a heavy library.  
+Not a framework-dependent solution.  
+Just a simple, reusable piece you can drop into any project.
+
+That’s why I built dvmbr-intro.
+
+⸻
+
+## What is dvmbr-intro?
+
+dvmbr-intro is a lightweight web component that displays an animated intro text before your app loads.
+
+Each character appears sequentially with:
+
+- vertical motion
+- blur → sharp transition
+- smooth timing offsets
+
+And when the intro ends, the entire block:
+
+- slightly scales up
+- fades out
+
+→ giving a polished and controlled exit.
+
+No dependencies.  
+No framework lock-in.  
+Just a native Web Component.
+
+⸻
+
+## Why I Built This
+
+In many projects, I found myself wanting:
+
+- a consistent first impression
+- a simple intro animation
+- something reusable across different stacks
+
+Most solutions were either:
+
+- too heavy
+- tied to a framework
+- or over-engineered
+
+So I decided to build something minimal, composable, and portable.
+
+⸻
+
+## Key Features
+
+- Pure Web Component
+- Works in React, Vue, or plain HTML
+- No dependencies
+- Animated text reveal
+- character-by-character animation
+- Shadow DOM encapsulation
+- no style conflicts
+- Customizable via attributes
+- Drop-in usage
+
+⸻
+
+## Installation
+
+```
+npm install dvmbr-intro
+```
+
+⸻
+
+## Basic Usage
+
+**1. Import once**
+
+```js
+import "dvmbr-intro";
+```
+
+Or if you prefer manual control:
+
+```js
+import { defineDvmbrIntro } from "dvmbr-intro";
+defineDvmbrIntro();
+```
+
+⸻
+
+**2. Use it in your HTML**
+
+```html
+<dvmbr-intro text="WELCOME"></dvmbr-intro>
+```
+
+That’s it.
+
+⸻
+
+## Example
+
+**React / Vue**
+
+```jsx
+import "dvmbr-intro";
+function App() {
+  return (
+    <>
+      <dvmbr-intro text="HELLO" />
+      <h1>My App</h1>
+    </>
+  );
+}
+```
+
+⸻
+
+**Plain HTML**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module">
+      import "dvmbr-intro";
+    </script>
+  </head>
+  <body>
+    <dvmbr-intro text="DVMBR"></dvmbr-intro>
+    <h1>My Site</h1>
+  </body>
+</html>
+```
+
+⸻
+
+## Customization
+
+You can control the appearance using attributes:
+
+| Attribute        | Type   | Default | Description      |
+| ---------------- | ------ | ------- | ---------------- |
+| text             | string | DVMBR   | Intro text       |
+| text-color       | string | #fff    | Text color       |
+| background-color | string | #000    | Background color |
+
+Example:
+
+```html
+<dvmbr-intro
+  text="WELCOME"
+  text-color="#67fff0"
+  background-color="#050608"
+></dvmbr-intro>
+```
+
+⸻
+
+## Behavior
+
+- The intro is shown once per session
+- Controlled using sessionStorage
+- Prevents repeated interruptions during navigation
+
+⸻
+
+## Design Notes
+
+This component is built around a simple idea:
+
+**State → Flow → Feedback**
+
+- State: intro visible / hidden
+- Flow: character animation → exit transition
+- Feedback: visual timing and motion clarity
+
+Everything is explicit and predictable.
+
+⸻
+
+## When to Use It
+
+- Portfolio sites
+- Landing pages
+- Personal branding
+- Minimal apps that need a strong first impression
