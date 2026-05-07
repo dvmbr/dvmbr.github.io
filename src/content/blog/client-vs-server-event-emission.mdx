@@ -1,0 +1,67 @@
+---
+title: Choosing between client-side and server-side event emission.
+description: How to decide whether events should be emitted from the client or server.
+pubDate: 2026-05-07
+tags: [api, websocket, architecture]
+draft: false
+---
+
+While implementing realtime unread count updates in a chat application, I realized that not every websocket event should be emitted directly from the client.
+At first glance, it may seem reasonable for the client to emit unread count updates immediately after sending a message. However, unread count is not simply an event trigger — it is a derived state that depends on persisted database data and participant state.
+This led me to think more carefully about where certain realtime events should originate, and how responsibilities should be separated between the client and the backend.
+
+## Why unread count updates should be emitted from the server
+
+Unread count is not just an event — it is a calculated state based on the database.
+
+A client may know that a message was sent, but it does not reliably know:
+
+- whether the message was successfully stored
+- who belongs to the room
+- each participant's `lastReadAt`
+- whether the sender should be excluded
+- whether some users are currently inside the room
+- the actual unread count after persistence
+
+Because of this, emitting unread updates directly from the client can easily cause state mismatches.
+
+### Less reliable flow
+
+```txt
+Client
+-> emit unread update
+
+Socket server
+-> other clients update UI
+```
+
+This approach depends on assumptions from the client.
+
+### Recommended flow
+
+```txt
+Client
+-> send message request
+
+Next API server
+-> save message to database
+-> calculate unread counts
+-> call internal socket server endpoint
+
+Socket server
+-> emit unread-count:update to target users
+```
+
+This structure ensures that realtime state always matches persisted database state.
+
+### Key distinction
+
+```txt
+message-created
+-> realtime event
+
+unreadCount
+-> server-calculated state
+```
+
+For this reason, unread count broadcasting is usually more reliable when emitted from the backend after database persistence and validation.
