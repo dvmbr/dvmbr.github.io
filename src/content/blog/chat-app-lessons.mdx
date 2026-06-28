@@ -1,0 +1,106 @@
+---
+title: Things That Actually Tripped Me Up Building a Real-Time Chat App
+description: A collection of bugs and design mistakes I ran into while building a Next.js + Socket.IO chat app, and how I got through them.
+pubDate: 2026-06-28
+tags: [nextjs, prisma, socket.io, debugging]
+draft: false
+---
+
+I've been building a real-time chat app on and off, and at some point I figured I'd just write down the stuff that genuinely cost me time. Not the setup steps — there are enough tutorials for that. Just the weird corners I got stuck in.
+
+---
+
+## 1. Prisma migrations not running in production
+
+This one was embarrassing. Everything worked locally, deployed to Vercel, opened the app, and immediately got a runtime crash:
+
+```sh
+PrismaClientKnownRequestError: column "isAiBot" of relation "User" does not exist
+```
+
+I had run `prisma migrate dev` locally and committed the migration files, but I never actually told Vercel to apply them. The build command was just `next build`. The fix is obvious in hindsight — add `prisma migrate deploy` before the build:
+
+```sh
+prisma migrate deploy && next build
+```
+
+`migrate deploy` is the production-safe version. It doesn't try to create new migrations, it just applies pending ones. Should've had this from the start.
+
+---
+
+## 2. A function that throws a Response, and why that's a problem
+
+I have a `getUserFromRequest` helper that reads a cookie, looks up the user, and throws a `NextResponse` if anything's wrong:
+
+```typescript
+// getUserFromRequest.ts
+if (!user) throw unauthorized({ message: "Unauthorized" });
+```
+
+Where `unauthorized()` returns a `NextResponse`. The idea was that route handlers could just `await getUserFromRequest(req)` and if the user isn't valid, the response gets thrown up and the caller returns it.
+
+Except when I wrote the DELETE /api/user handler, I forgot to re-throw it:
+
+```typescript
+export async function DELETE(req: NextRequest) {
+  try {
+    const user = await getUserFromRequest(req); // throws NextResponse on failure
+    await prisma.user.delete({ where: { id: user.id } });
+    // ...
+  } catch (error) {
+    return internalServerError(error); // oops, wraps the NextResponse in a 500
+  }
+}
+```
+
+So a perfectly valid 401 was getting swallowed and returned as a 500. The fix I settled on:
+
+```typescript
+catch (error) {
+  if (error instanceof Response) return error;
+  return internalServerError(error);
+}
+```
+
+Not the most elegant pattern but it works. If I were starting over I'd probably have `getUserFromRequest` return a result type instead of throwing.
+
+---
+
+## 3. Room deletion feeling slow
+
+After deleting a room, there was about a one-second gap before it disappeared from the list. The room was deleted on the server immediately — the delay was just `router.refresh()` doing a full server round-trip to refetch the list.
+
+The fix was optimistic UI. Instead of waiting for the refresh, I filter the room out of local state the moment the mutation succeeds:
+
+```typescript
+// In RoomsContainer
+onDeleteRoom={(id) => setRoomItems((prev) => prev.filter((r) => r.id !== id))}
+```
+
+The room disappears instantly. If the deletion had actually failed, I'd need to add the room back — but for this project that edge case felt acceptable to leave for later.
+
+---
+
+## 4. Clicking to edit a room name also navigating into it
+
+Each room in the list is a clickable card that pushes to `/rooms/:id`. When I added inline name editing, clicking the edit button or typing in the input would also trigger the card's `onClick` and navigate away.
+
+I added `e.stopPropagation()` on the edit button click, which helped for the initial click. But then I noticed that clicking the input itself still sometimes triggered navigation. The real fix was gating the card click on an `isTyping` flag:
+
+```typescript
+<Card onClick={() => !isTyping && router.push(`/rooms/${roomItem.id}`)}>
+```
+
+Simple, but easy to miss when you're thinking of them as separate interactions.
+
+---
+
+## 5. `sm:p-0` not doing what I thought on mobile
+
+I had a textarea in the chat input that was jumping in height on mobile when focused. I traced it to padding — the textarea had `sm:p-0` which I thought removed padding everywhere. It doesn't. `sm:` is a breakpoint prefix, so it only applies at `640px` and above. On mobile the padding stayed, causing the height shift.
+
+Changed it to just `p-0` and the jumping stopped. I must have written `sm:p-0` thinking "small screens and up" but Tailwind's `sm:` means "at the small breakpoint and wider," not "for small screens."
+
+---
+
+These probably aren't the most novel bugs, but they were all things where I thought I knew what was happening and turned out to be wrong in a small but important way. Writing them down mostly so I don't repeat them.
